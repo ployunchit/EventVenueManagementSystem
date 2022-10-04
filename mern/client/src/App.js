@@ -1,14 +1,16 @@
 import React from "react";
+import "./components/navbar.css"
  
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
  
 // We import all the components we need in our app
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar/navbar";
 import RecordList from "./components/recordList";
+// import RecordList from "./components/recordList";
 import Edit from "./components/edit";
-import Create from "./components/create";
-import SignIn from "./components/signin";
+import SignUp from "./components/login/signup";
+import SignIn from "./components/login/signin";
  
 const App = () => {
  return (
@@ -17,9 +19,10 @@ const App = () => {
      <Routes>
        <Route exact path="/" element={<RecordList />} />
        <Route path="/edit/:id" element={<Edit />} />
-       <Route path="/create" element={<Create />} />
+       <Route path="/signup" element={<SignUp />} />
        <Route path="/signin" element={<SignIn />} />
      </Routes>
+     
    </div>
  );
 };
