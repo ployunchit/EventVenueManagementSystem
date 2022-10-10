@@ -57,7 +57,8 @@ export default function SignIn() {
        <div className="form-group">
          <label htmlFor="password">Password</label>
          <input
-           type="text"
+           type="password"
+           name="password"
            className="form-control"
            id="password"
            value={form.password}
