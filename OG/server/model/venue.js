@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 venueSchema = new Schema( {
 	name: String,
-	desc: String,
+	address: String,
 	price: Number,
 	image: String,
 	discount: Number,

@@ -17,7 +17,7 @@ export default class VenuesDashboard extends Component {
       openVenueEditModal: false,
       id: '',
       name: '',
-      desc: '',
+      address: '',
       price: '',
       discount: '',
       file: '',
@@ -122,7 +122,7 @@ export default class VenuesDashboard extends Component {
     const file = new FormData();
     file.append('file', fileInput.files[0]);
     file.append('name', this.state.name);
-    file.append('desc', this.state.desc);
+    file.append('address', this.state.address);
     file.append('discount', this.state.discount);
     file.append('price', this.state.price);
 
@@ -140,7 +140,7 @@ export default class VenuesDashboard extends Component {
       });
 
       this.handleVenueClose();
-      this.setState({ name: '', desc: '', discount: '', price: '', file: null, page: 1 }, () => {
+      this.setState({ name: '', address: '', discount: '', price: '', file: null, page: 1 }, () => {
         this.getVenue();
       });
     }).catch((err) => {
@@ -160,7 +160,7 @@ export default class VenuesDashboard extends Component {
     file.append('id', this.state.id);
     file.append('file', fileInput.files[0]);
     file.append('name', this.state.name);
-    file.append('desc', this.state.desc);
+    file.append('address', this.state.address);
     file.append('discount', this.state.discount);
     file.append('price', this.state.price);
 
@@ -178,7 +178,7 @@ export default class VenuesDashboard extends Component {
       });
 
       this.handleVenueEditClose();
-      this.setState({ name: '', desc: '', discount: '', price: '', file: null }, () => {
+      this.setState({ name: '', address: '', discount: '', price: '', file: null }, () => {
         this.getVenue();
       });
     }).catch((err) => {
@@ -197,7 +197,7 @@ export default class VenuesDashboard extends Component {
       openVenueModal: true,
       id: '',
       name: '',
-      desc: '',
+      address: '',
       price: '',
       discount: '',
       fileName: ''
@@ -213,7 +213,7 @@ export default class VenuesDashboard extends Component {
       openVenueEditModal: true,
       id: data._id,
       name: data.name,
-      desc: data.desc,
+      address: data.address,
       price: data.price,
       discount: data.discount,
       fileName: data.image
@@ -274,10 +274,10 @@ export default class VenuesDashboard extends Component {
               id="standard-basic"
               type="text"
               autoComplete="off"
-              name="desc"
-              value={this.state.desc}
+              name="address"
+              value={this.state.address}
               onChange={this.onChange}
-              placeholder="Description"
+              placeholder="Address"
               required
             /><br />
             <TextField
@@ -324,7 +324,7 @@ export default class VenuesDashboard extends Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.name == '' || this.state.desc == '' || this.state.discount == '' || this.state.price == ''}
+              disabled={this.state.name == '' || this.state.address == '' || this.state.discount == '' || this.state.price == ''}
               onClick={(e) => this.updateVenue()} color="primary" autoFocus>
               Edit Venue
             </Button>
@@ -354,10 +354,10 @@ export default class VenuesDashboard extends Component {
               id="standard-basic"
               type="text"
               autoComplete="off"
-              name="desc"
-              value={this.state.desc}
+              name="address"
+              value={this.state.address}
               onChange={this.onChange}
-              placeholder="Description"
+              placeholder="Address"
               required
             /><br />
             <TextField
@@ -408,7 +408,7 @@ export default class VenuesDashboard extends Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.name == '' || this.state.desc == '' || this.state.discount == '' || this.state.price == '' || this.state.file == null}
+              disabled={this.state.name == '' || this.state.address == '' || this.state.discount == '' || this.state.price == '' || this.state.file == null}
               onClick={(e) => this.addVenue()} color="primary" autoFocus>
               Add Venue
             </Button>
@@ -433,7 +433,7 @@ export default class VenuesDashboard extends Component {
               <TableRow>
                 <TableCell align="center">Name</TableCell>
                 <TableCell align="center">Image</TableCell>
-                <TableCell align="center">Description</TableCell>
+                <TableCell align="center">Address</TableCell>
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Discount</TableCell>
                 <TableCell align="center">Action</TableCell>
@@ -446,7 +446,7 @@ export default class VenuesDashboard extends Component {
                     {row.name}
                   </TableCell>
                   <TableCell align="center"><img src={`http://localhost:2000/${row.image}`} width="70" height="70" /></TableCell>
-                  <TableCell align="center">{row.desc}</TableCell>
+                  <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>
                   <TableCell align="center">{row.discount}</TableCell>
                   <TableCell align="center">

@@ -185,12 +185,12 @@ function checkUserAndGenerateToken(data, req, res) {
 /* Api to add venue */
 app.post("/add-venue", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.desc && req.body.price &&
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
       req.body.discount) {
 
       let new_venue = new venue();
       new_venue.name = req.body.name;
-      new_venue.desc = req.body.desc;
+      new_venue.address = req.body.address;
       new_venue.price = req.body.price;
       new_venue.image = req.files[0].filename;
       new_venue.discount = req.body.discount;
@@ -226,7 +226,7 @@ app.post("/add-venue", upload.any(), (req, res) => {
 /* Api to update venue */
 app.post("/update-venue", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.desc && req.body.price &&
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
       req.body.id && req.body.discount) {
 
       venue.findById(req.body.id, (err, new_venue) => {
@@ -243,8 +243,8 @@ app.post("/update-venue", upload.any(), (req, res) => {
         if (req.body.name) {
           new_venue.name = req.body.name;
         }
-        if (req.body.desc) {
-          new_venue.desc = req.body.desc;
+        if (req.body.address) {
+          new_venue.address = req.body.address;
         }
         if (req.body.price) {
           new_venue.price = req.body.price;
@@ -330,7 +330,7 @@ app.get("/get-venue", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    venue.find(query, { date: 1, name: 1, id: 1, desc: 1, price: 1, discount: 1, image: 1 })
+    venue.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, discount: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
         venue.find(query).count()

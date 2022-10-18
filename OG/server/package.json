@@ -1,7 +1,7 @@
 {
-  "name": "product_api",
+  "name": "EventHub_api",
   "version": "1.0.0",
-  "description": "Api for product",
+  "description": "Api for EventHub",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +10,7 @@
   "keywords": [
     "movie"
   ],
-  "author": "Foram Sojitra",
+  "author": "Ayesha, Drew, Ploy, Prab",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
