@@ -6,7 +6,6 @@ venueSchema = new Schema( {
 	address: String,
 	price: Number,
 	image: String,
-	discount: Number,
 	user_id: Schema.ObjectId,
 	is_delete: { type: Boolean, default: false },
 	date : { type : Date, default: Date.now }

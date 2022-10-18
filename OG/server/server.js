@@ -185,15 +185,13 @@ function checkUserAndGenerateToken(data, req, res) {
 /* Api to add venue */
 app.post("/add-venue", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
-      req.body.discount) {
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price) {
 
       let new_venue = new venue();
       new_venue.name = req.body.name;
       new_venue.address = req.body.address;
       new_venue.price = req.body.price;
       new_venue.image = req.files[0].filename;
-      new_venue.discount = req.body.discount;
       new_venue.user_id = req.user.id;
       new_venue.save((err, data) => {
         if (err) {
@@ -227,7 +225,7 @@ app.post("/add-venue", upload.any(), (req, res) => {
 app.post("/update-venue", upload.any(), (req, res) => {
   try {
     if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
-      req.body.id && req.body.discount) {
+      req.body.id) {
 
       venue.findById(req.body.id, (err, new_venue) => {
 
@@ -248,9 +246,6 @@ app.post("/update-venue", upload.any(), (req, res) => {
         }
         if (req.body.price) {
           new_venue.price = req.body.price;
-        }
-        if (req.body.discount) {
-          new_venue.discount = req.body.discount;
         }
 
         new_venue.save((err, data) => {
@@ -330,7 +325,7 @@ app.get("/get-venue", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    venue.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, discount: 1, image: 1 })
+    venue.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
         venue.find(query).count()
