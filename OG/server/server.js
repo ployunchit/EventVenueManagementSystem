@@ -9,7 +9,7 @@ var multer = require('multer'),
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/EventHub");
 var fs = require('fs');
-var product = require("./model/product.js");
+var venue = require("./model/venue.js");
 var user = require("./model/user.js");
 
 var dir = './uploads';
@@ -182,20 +182,20 @@ function checkUserAndGenerateToken(data, req, res) {
   });
 }
 
-/* Api to add Product */
-app.post("/add-product", upload.any(), (req, res) => {
+/* Api to add venue */
+app.post("/add-venue", upload.any(), (req, res) => {
   try {
     if (req.files && req.body && req.body.name && req.body.desc && req.body.price &&
       req.body.discount) {
 
-      let new_product = new product();
-      new_product.name = req.body.name;
-      new_product.desc = req.body.desc;
-      new_product.price = req.body.price;
-      new_product.image = req.files[0].filename;
-      new_product.discount = req.body.discount;
-      new_product.user_id = req.user.id;
-      new_product.save((err, data) => {
+      let new_venue = new venue();
+      new_venue.name = req.body.name;
+      new_venue.desc = req.body.desc;
+      new_venue.price = req.body.price;
+      new_venue.image = req.files[0].filename;
+      new_venue.discount = req.body.discount;
+      new_venue.user_id = req.user.id;
+      new_venue.save((err, data) => {
         if (err) {
           res.status(400).json({
             errorMessage: err,
@@ -204,7 +204,7 @@ app.post("/add-product", upload.any(), (req, res) => {
         } else {
           res.status(200).json({
             status: true,
-            title: 'Product Added successfully.'
+            title: 'venue Added successfully.'
           });
         }
       });
@@ -223,37 +223,37 @@ app.post("/add-product", upload.any(), (req, res) => {
   }
 });
 
-/* Api to update Product */
-app.post("/update-product", upload.any(), (req, res) => {
+/* Api to update venue */
+app.post("/update-venue", upload.any(), (req, res) => {
   try {
     if (req.files && req.body && req.body.name && req.body.desc && req.body.price &&
       req.body.id && req.body.discount) {
 
-      product.findById(req.body.id, (err, new_product) => {
+      venue.findById(req.body.id, (err, new_venue) => {
 
         // if file already exist than remove it
-        if (req.files && req.files[0] && req.files[0].filename && new_product.image) {
-          var path = `./uploads/${new_product.image}`;
+        if (req.files && req.files[0] && req.files[0].filename && new_venue.image) {
+          var path = `./uploads/${new_venue.image}`;
           fs.unlinkSync(path);
         }
 
         if (req.files && req.files[0] && req.files[0].filename) {
-          new_product.image = req.files[0].filename;
+          new_venue.image = req.files[0].filename;
         }
         if (req.body.name) {
-          new_product.name = req.body.name;
+          new_venue.name = req.body.name;
         }
         if (req.body.desc) {
-          new_product.desc = req.body.desc;
+          new_venue.desc = req.body.desc;
         }
         if (req.body.price) {
-          new_product.price = req.body.price;
+          new_venue.price = req.body.price;
         }
         if (req.body.discount) {
-          new_product.discount = req.body.discount;
+          new_venue.discount = req.body.discount;
         }
 
-        new_product.save((err, data) => {
+        new_venue.save((err, data) => {
           if (err) {
             res.status(400).json({
               errorMessage: err,
@@ -262,7 +262,7 @@ app.post("/update-product", upload.any(), (req, res) => {
           } else {
             res.status(200).json({
               status: true,
-              title: 'Product updated.'
+              title: 'venue updated.'
             });
           }
         });
@@ -283,15 +283,15 @@ app.post("/update-product", upload.any(), (req, res) => {
   }
 });
 
-/* Api to delete Product */
-app.post("/delete-product", (req, res) => {
+/* Api to delete venue */
+app.post("/delete-venue", (req, res) => {
   try {
     if (req.body && req.body.id) {
-      product.findByIdAndUpdate(req.body.id, { is_delete: true }, { new: true }, (err, data) => {
+      venue.findByIdAndUpdate(req.body.id, { is_delete: true }, { new: true }, (err, data) => {
         if (data.is_delete) {
           res.status(200).json({
             status: true,
-            title: 'Product deleted.'
+            title: 'venue deleted.'
           });
         } else {
           res.status(400).json({
@@ -314,8 +314,8 @@ app.post("/delete-product", (req, res) => {
   }
 });
 
-/*Api to get and search product with pagination and search by name*/
-app.get("/get-product", (req, res) => {
+/*Api to get and search venue with pagination and search by name*/
+app.get("/get-venue", (req, res) => {
   try {
     var query = {};
     query["$and"] = [];
@@ -330,24 +330,24 @@ app.get("/get-product", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    product.find(query, { date: 1, name: 1, id: 1, desc: 1, price: 1, discount: 1, image: 1 })
+    venue.find(query, { date: 1, name: 1, id: 1, desc: 1, price: 1, discount: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
-        product.find(query).count()
+        venue.find(query).count()
           .then((count) => {
 
             if (data && data.length > 0) {
               res.status(200).json({
                 status: true,
-                title: 'Product retrived.',
-                products: data,
+                title: 'venue retrived.',
+                venues: data,
                 current_page: page,
                 total: count,
                 pages: Math.ceil(count / perPage),
               });
             } else {
               res.status(400).json({
-                errorMessage: 'There is no product!',
+                errorMessage: 'There is no venue!',
                 status: false
               });
             }

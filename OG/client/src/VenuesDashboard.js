@@ -8,13 +8,13 @@ import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 const axios = require('axios');
 
-export default class Dashboard extends Component {
+export default class VenuesDashboard extends Component {
   constructor() {
     super();
     this.state = {
       token: '',
-      openProductModal: false,
-      openProductEditModal: false,
+      openVenueModal: false,
+      openVenueEditModal: false,
       id: '',
       name: '',
       desc: '',
@@ -24,7 +24,7 @@ export default class Dashboard extends Component {
       fileName: '',
       page: 1,
       search: '',
-      products: [],
+      venues: [],
       pages: 0,
       loading: false
     };
@@ -36,12 +36,12 @@ export default class Dashboard extends Component {
       this.props.history.push('/login');
     } else {
       this.setState({ token: token }, () => {
-        this.getProduct();
+        this.getVenue();
       });
     }
   }
 
-  getProduct = () => {
+  getVenue = () => {
     
     this.setState({ loading: true });
 
@@ -50,24 +50,24 @@ export default class Dashboard extends Component {
     if (this.state.search) {
       data = `${data}&search=${this.state.search}`;
     }
-    axios.get(`http://localhost:2000/get-product${data}`, {
+    axios.get(`http://localhost:2000/get-venue${data}`, {
       headers: {
         'token': this.state.token
       }
     }).then((res) => {
-      this.setState({ loading: false, products: res.data.products, pages: res.data.pages });
+      this.setState({ loading: false, venues: res.data.venues, pages: res.data.pages });
     }).catch((err) => {
       swal({
         text: err.response.data.errorMessage,
         icon: "error",
         type: "error"
       });
-      this.setState({ loading: false, products: [], pages: 0 },()=>{});
+      this.setState({ loading: false, venues: [], pages: 0 },()=>{});
     });
   }
 
-  deleteProduct = (id) => {
-    axios.post('http://localhost:2000/delete-product', {
+  deleteVenue = (id) => {
+    axios.post('http://localhost:2000/delete-venue', {
       id: id
     }, {
       headers: {
@@ -96,7 +96,7 @@ export default class Dashboard extends Component {
 
   pageChange = (e, page) => {
     this.setState({ page: page }, () => {
-      this.getProduct();
+      this.getVenue();
     });
   }
 
@@ -112,12 +112,12 @@ export default class Dashboard extends Component {
     this.setState({ [e.target.name]: e.target.value }, () => { });
     if (e.target.name == 'search') {
       this.setState({ page: 1 }, () => {
-        this.getProduct();
+        this.getVenue();
       });
     }
   };
 
-  addProduct = () => {
+  addVenue = () => {
     const fileInput = document.querySelector("#fileInput");
     const file = new FormData();
     file.append('file', fileInput.files[0]);
@@ -126,7 +126,7 @@ export default class Dashboard extends Component {
     file.append('discount', this.state.discount);
     file.append('price', this.state.price);
 
-    axios.post('http://localhost:2000/add-product', file, {
+    axios.post('http://localhost:2000/add-venue', file, {
       headers: {
         'content-type': 'multipart/form-data',
         'token': this.state.token
@@ -139,9 +139,9 @@ export default class Dashboard extends Component {
         type: "success"
       });
 
-      this.handleProductClose();
+      this.handleVenueClose();
       this.setState({ name: '', desc: '', discount: '', price: '', file: null, page: 1 }, () => {
-        this.getProduct();
+        this.getVenue();
       });
     }).catch((err) => {
       swal({
@@ -149,12 +149,12 @@ export default class Dashboard extends Component {
         icon: "error",
         type: "error"
       });
-      this.handleProductClose();
+      this.handleVenueClose();
     });
 
   }
 
-  updateProduct = () => {
+  updateVenue = () => {
     const fileInput = document.querySelector("#fileInput");
     const file = new FormData();
     file.append('id', this.state.id);
@@ -164,7 +164,7 @@ export default class Dashboard extends Component {
     file.append('discount', this.state.discount);
     file.append('price', this.state.price);
 
-    axios.post('http://localhost:2000/update-product', file, {
+    axios.post('http://localhost:2000/update-venue', file, {
       headers: {
         'content-type': 'multipart/form-data',
         'token': this.state.token
@@ -177,9 +177,9 @@ export default class Dashboard extends Component {
         type: "success"
       });
 
-      this.handleProductEditClose();
+      this.handleVenueEditClose();
       this.setState({ name: '', desc: '', discount: '', price: '', file: null }, () => {
-        this.getProduct();
+        this.getVenue();
       });
     }).catch((err) => {
       swal({
@@ -187,14 +187,14 @@ export default class Dashboard extends Component {
         icon: "error",
         type: "error"
       });
-      this.handleProductEditClose();
+      this.handleVenueEditClose();
     });
 
   }
 
-  handleProductOpen = () => {
+  handleVenueOpen = () => {
     this.setState({
-      openProductModal: true,
+      openVenueModal: true,
       id: '',
       name: '',
       desc: '',
@@ -204,13 +204,13 @@ export default class Dashboard extends Component {
     });
   };
 
-  handleProductClose = () => {
-    this.setState({ openProductModal: false });
+  handleVenueClose = () => {
+    this.setState({ openVenueModal: false });
   };
 
-  handleProductEditOpen = (data) => {
+  handleVenueEditOpen = (data) => {
     this.setState({
-      openProductEditModal: true,
+      openVenueEditModal: true,
       id: data._id,
       name: data.name,
       desc: data.desc,
@@ -220,8 +220,8 @@ export default class Dashboard extends Component {
     });
   };
 
-  handleProductEditClose = () => {
-    this.setState({ openProductEditModal: false });
+  handleVenueEditClose = () => {
+    this.setState({ openVenueEditModal: false });
   };
 
   render() {
@@ -229,15 +229,17 @@ export default class Dashboard extends Component {
       <div>
         {this.state.loading && <LinearProgress size={40} />}
         <div>
-          <h2>Dashboard</h2>
+          <br/><br/>
+          <h2>Venues Dashboard</h2>
+          <br/>
           <Button
             className="button_style"
             variant="contained"
             color="primary"
             size="small"
-            onClick={this.handleProductOpen}
+            onClick={this.handleVenueOpen}
           >
-            Add Product
+            Add Venue
           </Button>
           <Button
             className="button_style"
@@ -249,14 +251,14 @@ export default class Dashboard extends Component {
           </Button>
         </div>
 
-        {/* Edit Product */}
+        {/* Edit Venue */}
         <Dialog
-          open={this.state.openProductEditModal}
-          onClose={this.handleProductClose}
+          open={this.state.openVenueEditModal}
+          onClose={this.handleVenueClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">Edit Product</DialogTitle>
+          <DialogTitle id="alert-dialog-title">Edit Venue</DialogTitle>
           <DialogContent>
             <TextField
               id="standard-basic"
@@ -265,7 +267,7 @@ export default class Dashboard extends Component {
               name="name"
               value={this.state.name}
               onChange={this.onChange}
-              placeholder="Product Name"
+              placeholder="Venue Name"
               required
             /><br />
             <TextField
@@ -318,25 +320,25 @@ export default class Dashboard extends Component {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={this.handleProductEditClose} color="primary">
+            <Button onClick={this.handleVenueEditClose} color="primary">
               Cancel
             </Button>
             <Button
               disabled={this.state.name == '' || this.state.desc == '' || this.state.discount == '' || this.state.price == ''}
-              onClick={(e) => this.updateProduct()} color="primary" autoFocus>
-              Edit Product
+              onClick={(e) => this.updateVenue()} color="primary" autoFocus>
+              Edit Venue
             </Button>
           </DialogActions>
         </Dialog>
 
-        {/* Add Product */}
+        {/* Add Venue */}
         <Dialog
-          open={this.state.openProductModal}
-          onClose={this.handleProductClose}
+          open={this.state.openVenueModal}
+          onClose={this.handleVenueClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">Add Product</DialogTitle>
+          <DialogTitle id="alert-dialog-title">Add Venue</DialogTitle>
           <DialogContent>
             <TextField
               id="standard-basic"
@@ -345,7 +347,7 @@ export default class Dashboard extends Component {
               name="name"
               value={this.state.name}
               onChange={this.onChange}
-              placeholder="Product Name"
+              placeholder="Venue Name"
               required
             /><br />
             <TextField
@@ -402,13 +404,13 @@ export default class Dashboard extends Component {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={this.handleProductClose} color="primary">
+            <Button onClick={this.handleVenueClose} color="primary">
               Cancel
             </Button>
             <Button
               disabled={this.state.name == '' || this.state.desc == '' || this.state.discount == '' || this.state.price == '' || this.state.file == null}
-              onClick={(e) => this.addProduct()} color="primary" autoFocus>
-              Add Product
+              onClick={(e) => this.addVenue()} color="primary" autoFocus>
+              Add Venue
             </Button>
           </DialogActions>
         </Dialog>
@@ -423,7 +425,7 @@ export default class Dashboard extends Component {
             name="search"
             value={this.state.search}
             onChange={this.onChange}
-            placeholder="Search by product name"
+            placeholder="Search by Venue name"
             required
           />
           <Table aria-label="simple table">
@@ -438,7 +440,7 @@ export default class Dashboard extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.products.map((row) => (
+              {this.state.venues.map((row) => (
                 <TableRow key={row.name}>
                   <TableCell align="center" component="th" scope="row">
                     {row.name}
@@ -453,7 +455,7 @@ export default class Dashboard extends Component {
                       variant="outlined"
                       color="primary"
                       size="small"
-                      onClick={(e) => this.handleProductEditOpen(row)}
+                      onClick={(e) => this.handleVenueEditOpen(row)}
                     >
                       Edit
                   </Button>
@@ -462,7 +464,7 @@ export default class Dashboard extends Component {
                       variant="outlined"
                       color="secondary"
                       size="small"
-                      onClick={(e) => this.deleteProduct(row._id)}
+                      onClick={(e) => this.deleteVenue(row._id)}
                     >
                       Delete
                   </Button>
