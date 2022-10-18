@@ -11,6 +11,7 @@ import Home from "./components/pages/Home";
 import Edit from "./components/edit";
 import SignUp from "./components/login/signup";
 import SignIn from "./components/login/signin";
+import UserProfile from "./components/pages/UserProfile";
  
 const App = () => {
  return (
@@ -21,6 +22,7 @@ const App = () => {
        <Route path="/edit/:id" element={<Edit />} />
        <Route path="/signup" element={<SignUp />} />
        <Route path="/signin" element={<SignIn />} />
+       <Route path="/UserProfile" element={<UserProfile />} />
      </Routes>
 
    </div>
