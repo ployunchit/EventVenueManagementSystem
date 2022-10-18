@@ -7,6 +7,8 @@ export default class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstName: '',
+      lastName: '',
       username: '',
       password: '',
       confirm_password: ''
@@ -18,6 +20,8 @@ export default class Register extends React.Component {
   register = () => {
 
     axios.post('http://localhost:2000/register', {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
       username: this.state.username,
       password: this.state.password,
     }).then((res) => {
@@ -44,6 +48,28 @@ export default class Register extends React.Component {
         </div>
 
         <div>
+        <TextField
+            id="standard-basic"
+            type="text"
+            autoComplete="off"
+            name="firstName"
+            value={this.state.firstName}
+            onChange={this.onChange}
+            placeholder="First Name"
+            required
+          />
+          <br /><br />
+          <TextField
+            id="standard-basic"
+            type="text"
+            autoComplete="off"
+            name="lastName"
+            value={this.state.lastName}
+            onChange={this.onChange}
+            placeholder="Last Name"
+            required
+          />
+          <br /><br />
           <TextField
             id="standard-basic"
             type="text"
@@ -82,7 +108,7 @@ export default class Register extends React.Component {
             variant="contained"
             color="primary"
             size="small"
-            disabled={this.state.username == '' && this.state.password == ''}
+            disabled={this.state.firstName == '' && this.state.lastName == '' && this.state.username == '' && this.state.password == ''}
             onClick={this.register}
           >
             Register

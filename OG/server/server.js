@@ -7,7 +7,7 @@ var multer = require('multer'),
   bodyParser = require('body-parser'),
   path = require('path');
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/productDB");
+mongoose.connect("mongodb://localhost/EventHub");
 var fs = require('fs');
 var product = require("./model/product.js");
 var user = require("./model/user.js");
@@ -116,13 +116,15 @@ app.post("/login", (req, res) => {
 /* register api */
 app.post("/register", (req, res) => {
   try {
-    if (req.body && req.body.username && req.body.password) {
+    if (req.body && req.body.username && req.body.firstName && req.body.lastName && req.body.password) {
 
       user.find({ username: req.body.username }, (err, data) => {
 
         if (data.length == 0) {
 
           let User = new user({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             username: req.body.username,
             password: req.body.password
           });
