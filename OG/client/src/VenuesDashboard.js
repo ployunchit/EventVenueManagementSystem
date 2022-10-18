@@ -262,7 +262,7 @@ export default class VenuesDashboard extends Component {
               name="name"
               value={this.state.name}
               onChange={this.onChange}
-              placeholder="Venue Name"
+              placeholder="Name"
               required
             /><br />
             <TextField
@@ -333,7 +333,7 @@ export default class VenuesDashboard extends Component {
               name="name"
               value={this.state.name}
               onChange={this.onChange}
-              placeholder="Venue Name"
+              placeholder="Name"
               required
             /><br />
             <TextField
@@ -401,7 +401,7 @@ export default class VenuesDashboard extends Component {
             name="search"
             value={this.state.search}
             onChange={this.onChange}
-            placeholder="Search by Venue name"
+            placeholder="Search by name"
             required
           />
           <Table aria-label="simple table">
