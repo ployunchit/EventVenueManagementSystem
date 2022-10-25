@@ -19,6 +19,7 @@ export default class ActiviyDashboard extends Component {
       name: '',
       address: '',
       price: '',
+      capacity: '',
       dateTime: '',
       file: '',
       fileName: '',
@@ -124,6 +125,7 @@ export default class ActiviyDashboard extends Component {
     file.append('name', this.state.name);
     file.append('address', this.state.address);
     file.append('price', this.state.price);
+    file.append('capacity',this.state.capacity);
     file.append('dateTime',this.state.dateTime);
 
     axios.post('http://localhost:2000/add-activity', file, {
@@ -140,7 +142,7 @@ export default class ActiviyDashboard extends Component {
       });
 
       this.handleActivityClose();
-      this.setState({ name: '', address: '', price: '', dateTime: '', file: null, page: 1 }, () => {
+      this.setState({ name: '', address: '', price: '', capacity: '', dateTime: '', file: null, page: 1 }, () => {
         this.getActivity();
       });
     }).catch((err) => {
@@ -162,6 +164,7 @@ export default class ActiviyDashboard extends Component {
     file.append('name', this.state.name);
     file.append('address', this.state.address);
     file.append('price', this.state.price);
+    file.append('capacity', this.state.capacity);
     file.append('dateTime',this.state.dateTime);
 
     axios.post('http://localhost:2000/update-activity', file, {
@@ -178,7 +181,7 @@ export default class ActiviyDashboard extends Component {
       });
 
       this.handleActivityEditClose();
-      this.setState({ name: '', address: '', price: '', dateTime: '', file: null }, () => {
+      this.setState({ name: '', address: '', price: '', capacity: '', dateTime: '', file: null }, () => {
         this.getActivity();
       });
     }).catch((err) => {
@@ -199,6 +202,7 @@ export default class ActiviyDashboard extends Component {
       name: '',
       address: '',
       price: '',
+      capacity: '',
       dateTime: '',
       fileName: ''
     });
@@ -215,6 +219,7 @@ export default class ActiviyDashboard extends Component {
       name: data.name,
       address: data.address,
       price: data.price,
+      capacity: data.capacity,
       dateTime: data.dateTime,
       fileName: data.image
     });
@@ -290,6 +295,16 @@ export default class ActiviyDashboard extends Component {
               placeholder="Price"
               required
             /><br />
+             <TextField
+              id="standard-basic"
+              type="number"
+              autoComplete="off"
+              name="capacity"
+              value={this.state.capacity}
+              onChange={this.onChange}
+              placeholder="Capacity"
+              required
+            /><br />
             <TextField
               id="standard-basic"
               type="text"
@@ -325,7 +340,7 @@ export default class ActiviyDashboard extends Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.dateTime == ''}
+              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.capacity == '' || this.state.dateTime == ''}
               onClick={(e) => this.updateActivity()} color="primary" autoFocus>
               Edit Activity
             </Button>
@@ -373,6 +388,16 @@ export default class ActiviyDashboard extends Component {
             /><br />
             <TextField
               id="standard-basic"
+              type="number"
+              autoComplete="off"
+              name="capacity"
+              value={this.state.capacity}
+              onChange={this.onChange}
+              placeholder="Capacity"
+              required
+            /><br />
+            <TextField
+              id="standard-basic"
               type="text"
               autoComplete="off"
               name="dateTime"
@@ -410,7 +435,7 @@ export default class ActiviyDashboard extends Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.dateTime == '' || this.state.file == null}
+              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.capacity == '' || this.state.dateTime == '' || this.state.file == null}
               onClick={(e) => this.addActivity()} color="primary" autoFocus>
               Add Activity
             </Button>
@@ -437,6 +462,7 @@ export default class ActiviyDashboard extends Component {
                 <TableCell align="center">Image</TableCell>
                 <TableCell align="center">Address</TableCell>
                 <TableCell align="center">Price</TableCell>
+                <TableCell align="center">Capacity</TableCell>
                 <TableCell align="center">Date and Time</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
@@ -450,6 +476,7 @@ export default class ActiviyDashboard extends Component {
                   <TableCell align="center"><img src={`http://localhost:2000/${row.image}`} width="70" height="70" /></TableCell>
                   <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>
+                  <TableCell align="center">{row.capacity}</TableCell>
                   <TableCell align="center">{row.dateTime}</TableCell>
                   <TableCell align="center">
                     <Button

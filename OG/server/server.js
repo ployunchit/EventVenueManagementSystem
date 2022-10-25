@@ -225,12 +225,13 @@ app.post("/add-venue", upload.any(), (req, res) => {
 /* Api to add Activity */
 app.post("/add-activity", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.address && req.body.price && req.body.dateTime) {
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price && req.body.capacity && req.body.dateTime) {
 
       let new_activity = new activity();
       new_activity.name = req.body.name;
       new_activity.address = req.body.address;
       new_activity.price = req.body.price;
+      new_activity.capacity = req.body.capacity;
       new_activity.dateTime = req.body.dateTime;
       new_activity.image = req.files[0].filename;
       new_activity.user_id = req.user.id;
@@ -324,7 +325,7 @@ app.post("/update-venue", upload.any(), (req, res) => {
 app.post("/update-activity", upload.any(), (req, res) => {
   try {
     if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
-      req.body.id && req.body.dateTime) {
+       req.body.capacity && req.body.id && req.body.dateTime) {
 
       activity.findById(req.body.id, (err, new_activity) => {
 
@@ -345,6 +346,9 @@ app.post("/update-activity", upload.any(), (req, res) => {
         }
         if (req.body.price) {
           new_activity.price = req.body.price;
+        }
+        if (req.body.capacity) {
+          new_activity.capacity = req.body.capacity;
         }
         if (req.body.dateTime) {
           new_activity.dateTime = req.body.dateTime;
@@ -517,7 +521,7 @@ app.get("/get-activity", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    activity.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, dateTime: 1, image: 1 })
+    activity.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, capacity: 1, dateTime: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
         activity.find(query).count()
