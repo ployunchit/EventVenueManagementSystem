@@ -6,6 +6,7 @@ import { BrowserRouter, Link } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import VenuesDashboard from './VenuesDashboard';
+import ActivityDashboard from './ActivityDashboard';
 import Home from "./Home";
 import './Login.css';
 
@@ -16,6 +17,7 @@ ReactDOM.render(
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route path='/VenuesDashboard' component={VenuesDashboard} />
+            <Route path='/ActivityDashboard' component={ActivityDashboard} />
             {/* <Route component={NotFound}/> */}
         </Switch>
     </BrowserRouter>,

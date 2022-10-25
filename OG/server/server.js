@@ -10,6 +10,7 @@ var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/EventHub");
 var fs = require('fs');
 var venue = require("./model/venue.js");
+var activity = require("./model/activity.js");
 var user = require("./model/user.js");
 
 var dir = './uploads';
@@ -221,6 +222,47 @@ app.post("/add-venue", upload.any(), (req, res) => {
   }
 });
 
+/* Api to add Activity */
+app.post("/add-activity", upload.any(), (req, res) => {
+  try {
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price && req.body.dateTime) {
+
+      let new_activity = new activity();
+      new_activity.name = req.body.name;
+      new_activity.address = req.body.address;
+      new_activity.price = req.body.price;
+      new_activity.dateTime = req.body.dateTime;
+      new_activity.image = req.files[0].filename;
+      new_activity.user_id = req.user.id;
+      new_activity.save((err, data) => {
+        if (err) {
+          res.status(400).json({
+            errorMessage: err,
+            status: false
+          });
+        } else {
+          res.status(200).json({
+            status: true,
+            title: 'Activity Added successfully.'
+          });
+        }
+      });
+
+    } else {
+      res.status(400).json({
+        errorMessage: 'Add proper parameter first!',
+        status: false
+      });
+    }
+  } catch (e) {
+    res.status(400).json({
+      errorMessage: 'Something went wrong!',
+      status: false
+    });
+  }
+});
+
+
 /* Api to update venue */
 app.post("/update-venue", upload.any(), (req, res) => {
   try {
@@ -278,6 +320,67 @@ app.post("/update-venue", upload.any(), (req, res) => {
   }
 });
 
+/* Api to update Activity */
+app.post("/update-activity", upload.any(), (req, res) => {
+  try {
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
+      req.body.id && req.body.dateTime) {
+
+      activity.findById(req.body.id, (err, new_activity) => {
+
+        // if file already exist than remove it
+        if (req.files && req.files[0] && req.files[0].filename && new_activity.image) {
+          var path = `./uploads/${new_activity.image}`;
+          fs.unlinkSync(path);
+        }
+
+        if (req.files && req.files[0] && req.files[0].filename) {
+          new_activity.image = req.files[0].filename;
+        }
+        if (req.body.name) {
+          new_activity.name = req.body.name;
+        }
+        if (req.body.address) {
+          new_activity.address = req.body.address;
+        }
+        if (req.body.price) {
+          new_activity.price = req.body.price;
+        }
+        if (req.body.dateTime) {
+          new_activity.dateTime = req.body.dateTime;
+        }
+
+        new_activity.save((err, data) => {
+          if (err) {
+            res.status(400).json({
+              errorMessage: err,
+              status: false
+            });
+          } else {
+            res.status(200).json({
+              status: true,
+              title: 'Activity updated.'
+            });
+          }
+        });
+
+      });
+
+    } else {
+      res.status(400).json({
+        errorMessage: 'Add proper parameter first!',
+        status: false
+      });
+    }
+  } catch (e) {
+    res.status(400).json({
+      errorMessage: 'Something went wrong!',
+      status: false
+    });
+  }
+});
+
+
 /* Api to delete venue */
 app.post("/delete-venue", (req, res) => {
   try {
@@ -308,6 +411,40 @@ app.post("/delete-venue", (req, res) => {
     });
   }
 });
+
+
+/* Api to delete activity */
+app.post("/delete-activity", (req, res) => {
+  try {
+    if (req.body && req.body.id) {
+      activity.findByIdAndUpdate(req.body.id, { is_delete: true }, { new: true }, (err, data) => {
+        if (data.is_delete) {
+          res.status(200).json({
+            status: true,
+            title: 'Activity deleted.'
+          });
+        } else {
+          res.status(400).json({
+            errorMessage: err,
+            status: false
+          });
+        }
+      });
+    } else {
+      res.status(400).json({
+        errorMessage: 'Add proper parameter first!',
+        status: false
+      });
+    }
+  } catch (e) {
+    res.status(400).json({
+      errorMessage: 'Something went wrong!',
+      status: false
+    });
+  }
+});
+
+
 
 /*Api to get and search venue with pagination and search by name*/
 app.get("/get-venue", (req, res) => {
@@ -363,6 +500,62 @@ app.get("/get-venue", (req, res) => {
   }
 
 });
+
+/*Api to get and search activity with pagination and search by name*/
+app.get("/get-activity", (req, res) => {
+  try {
+    var query = {};
+    query["$and"] = [];
+    query["$and"].push({
+      is_delete: false,
+      user_id: req.user.id
+    });
+    if (req.query && req.query.search) {
+      query["$and"].push({
+        name: { $regex: req.query.search }
+      });
+    }
+    var perPage = 5;
+    var page = req.query.page || 1;
+    activity.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, dateTime: 1, image: 1 })
+      .skip((perPage * page) - perPage).limit(perPage)
+      .then((data) => {
+        activity.find(query).count()
+          .then((count) => {
+
+            if (data && data.length > 0) {
+              res.status(200).json({
+                status: true,
+                title: 'Activity retrived.',
+                activities: data,
+                current_page: page,
+                total: count,
+                pages: Math.ceil(count / perPage),
+              });
+            } else {
+              res.status(400).json({
+                errorMessage: 'There is no Activity!',
+                status: false
+              });
+            }
+
+          });
+
+      }).catch(err => {
+        res.status(400).json({
+          errorMessage: err.message || err,
+          status: false
+        });
+      });
+  } catch (e) {
+    res.status(400).json({
+      errorMessage: 'Something went wrong!',
+      status: false
+    });
+  }
+
+});
+
 
 app.listen(2000, () => {
   console.log("Server is Runing On port 2000");

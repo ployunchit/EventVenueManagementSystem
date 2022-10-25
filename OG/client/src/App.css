@@ -8,6 +8,7 @@
   .home,
   .services,
   .venues,
+  .activities,
   .sign-up {
     display: flex;
     height: 90vh;
@@ -26,6 +27,15 @@
   }
   
   .venues {
+    /* background-image: url('/images/img-1.jpg'); */
+    background-position: center;
+    background-size: fill;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 100px;
+  }
+
+  .activities {
     /* background-image: url('/images/img-1.jpg'); */
     background-position: center;
     background-size: fill;
