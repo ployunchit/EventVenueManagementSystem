@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
  
 export default function SignIn() {
  const [form, getForm] = useState({
@@ -90,6 +91,9 @@ export default function SignIn() {
            <label htmlFor="passwordOwner" className="form-check-label">Owner</label>
          </div>
        </div>
+       <Link to="/forgot-password" style={{ alignSelf: "flex-start" }}>
+							<p style={{ padding: "0 15px" }}>Forgot Password?</p>
+				</Link>
        <div className="form-group">
          <input
            type="submit"
