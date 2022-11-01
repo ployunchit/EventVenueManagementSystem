@@ -5,7 +5,7 @@ const axios = require('axios');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
-export default class Login extends React.Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +73,7 @@ export default class Login extends React.Component {
             variant="contained"
             color="primary"
             size="small"
-            disabled={this.state.username == '' && this.state.password == ''}
+            disabled={this.state.username === '' && this.state.password === ''}
             onClick={this.login}
           >
             Login

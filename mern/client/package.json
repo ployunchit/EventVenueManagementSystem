@@ -12,6 +12,7 @@
     "react-calendar": "^3.9.0",
     "react-dom": "^18.2.0",
     "react-google-calendar-api": "^2.1.0",
+    "react-inline-editing": "^1.0.10",
     "react-router-dom": "^6.4.1",
     "react-scripts": "^2.1.3",
     "web-vitals": "^2.1.4"

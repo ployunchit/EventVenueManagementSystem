@@ -45,7 +45,7 @@ img {
 
 .column {
     float: left;
-    width: 33.33%;;
+    width: 50%;;
     margin-top: 100px;
 }
   
@@ -54,6 +54,17 @@ img {
     content: "";
     display: table;
     clear: both;
+}
+
+input {
+    background-color: transparent;
+    border: 0;
+    padding: 8px;
+}
+
+input:hover {
+    background-color: #d3d3d3;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

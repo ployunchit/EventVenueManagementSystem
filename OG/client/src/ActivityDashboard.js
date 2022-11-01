@@ -7,7 +7,6 @@ import {
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 const axios = require('axios');
-
 export default class ActiviyDashboard extends Component {
   constructor() {
     super();
@@ -110,7 +109,7 @@ export default class ActiviyDashboard extends Component {
       this.setState({ fileName: e.target.files[0].name }, () => { });
     }
     this.setState({ [e.target.name]: e.target.value }, () => { });
-    if (e.target.name == 'search') {
+    if (e.target.name === 'search') {
       this.setState({ page: 1 }, () => {
         this.getActivity();
       });
@@ -325,7 +324,7 @@ export default class ActiviyDashboard extends Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.dateTime == ''}
+              disabled={this.state.name === '' || this.state.address === '' || this.state.price === '' || this.state.dateTime === ''}
               onClick={(e) => this.updateActivity()} color="primary" autoFocus>
               Edit Activity
             </Button>
@@ -410,7 +409,7 @@ export default class ActiviyDashboard extends Component {
               Cancel
             </Button>
             <Button
-              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.dateTime == '' || this.state.file == null}
+              disabled={this.state.name === '' || this.state.address === '' || this.state.price === '' || this.state.dateTime === '' || this.state.file === null}
               onClick={(e) => this.addActivity()} color="primary" autoFocus>
               Add Activity
             </Button>
