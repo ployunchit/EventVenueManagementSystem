@@ -7,8 +7,9 @@ import { Route, Routes } from "react-router-dom";
 // We import all the components we need in our app
 import Navbar from "./components/navbar/navbar";
 import Home from "./components/pages/Home";
+import Sports from "./components/pages/Sports";
 // import RecordList from "./components/recordList";
-import Edit from "./components/edit";
+// import Edit from "./components/edit";
 import SignUp from "./components/login/signup";
 import SignIn from "./components/login/signin";
 import UserProfile from "./components/pages/UserProfile";
@@ -19,7 +20,7 @@ const App = () => {
      <Navbar />
      <Routes>
        <Route exact path="/" element={<Home />} />
-       <Route path="/edit/:id" element={<Edit />} />
+       <Route path="/Sports" element={<Sports />} />
        <Route path="/signup" element={<SignUp />} />
        <Route path="/signin" element={<SignIn />} />
        <Route path="/UserProfile" element={<UserProfile />} />
