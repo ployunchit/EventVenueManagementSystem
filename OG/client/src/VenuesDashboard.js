@@ -101,7 +101,8 @@ export default class VenuesDashboard extends Component {
 
   logOut = () => {
     localStorage.setItem('token', null);
-    this.props.history.push('/');
+    // this.props.history.push('/');
+    window.location.href = '/';
   }
 
   onChange = (e) => {

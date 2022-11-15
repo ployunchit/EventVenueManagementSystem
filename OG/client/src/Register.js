@@ -30,7 +30,8 @@ export default class Register extends React.Component {
         icon: "success",
         type: "success"
       });
-      this.props.history.push('/');
+      // this.props.history.push('/');
+      window.location.href = '/';
     }).catch((err) => {
       swal({
         text: err.response.data.errorMessage,

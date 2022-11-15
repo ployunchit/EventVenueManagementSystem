@@ -26,7 +26,8 @@ export default class Login extends React.Component {
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
-      this.props.history.push('http://localhost:2000/VenuesDashboard');
+      // this.props.history.push('http://localhost:2000/VenuesDashboard');
+      window.location.href = '/VenuesDashboard';
     }).catch((err) => {
       if (err.response && err.response.data && err.response.data.errorMessage) {
         swal({
