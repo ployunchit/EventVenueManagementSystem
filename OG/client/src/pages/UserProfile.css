@@ -39,9 +39,9 @@ button:hover, a:hover {
     opacity: 0.7;
 }
 
-img {
+/* img {
     width: 100%;
-}
+} */
 
 .column {
     float: left;

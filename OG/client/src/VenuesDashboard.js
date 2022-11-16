@@ -448,7 +448,7 @@ export default class VenuesDashboard extends Component {
                   <TableCell align="center" component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell align="center"><img src={`http://localhost:2000/${row.image}`} width="70" height="70" /></TableCell>
+                  <TableCell align="center"><img src={`http://localhost:2000/${row.image}`} width="100" height="100" /></TableCell>
                   <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">{row.slots}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>
