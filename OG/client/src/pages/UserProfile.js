@@ -1,23 +1,17 @@
 import React from 'react';
+import EditableLabel from 'react-inline-editing';
 import {useNavigate} from 'react-router-dom';
 import './UserProfile.css';
 
 function UserProfile() {
-  
-  const navigate = useNavigate();
-
-  const navigateToContacts = () => {
-    navigate('/edit');
-  };
   return (
   <div class = "row">
     <div class="column">
       <div class="card">
         <img src="avataricon.png" alt="Avatar"/> 
-        <h1>John Doe</h1>
-        <p class="title">Email: </p>
-        <p>Zip code: </p>
-        {/* <p><button onClick={navigateToContacts}>Edit</button></p> */}
+        <p>Name: <EditableLabel text='John Doe'/></p>
+        <p>Email: <EditableLabel text='johndoe@iu.edu'/></p>
+        <p>Zip code: <EditableLabel text='47401'/></p>
       </div>
     </div>
     <div class="column">
@@ -41,11 +35,6 @@ function UserProfile() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="calendar">
-        <h1>Calendar</h1>
       </div>
     </div>
   </div>
