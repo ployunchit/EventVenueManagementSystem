@@ -1,22 +1,45 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, TextField, Link } from '@material-ui/core';
+
+
 const ForgotPassword = () => {
-  const [email, setEmail] = useState();
+  const [mailerState, setMailerState] = useState({
+    email: "drewmesker@gmail.com",
+    message: "Test",
+  });
 
-  const handleSubmit = async (e) => {
+  function handleSubmit(e) {
+    setMailerState((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  const submitEmail = async (e) => {
     e.preventDefault();
-
-    //const res = await axios.post("/api/auth/forget-password", { email });
-
-    //if (res) {
-      alert("email Sent");
-    //}
+    console.log({ mailerState });
+    const response = await fetch("http://localhost:3001/send", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ mailerState }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setMailerState({
+          email: "",
+          message: "",
+        });
+      });
   };
+
+
 
   return (
     <section class="vh-100">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={submitEmail}>
         <div style={{ marginTop: '200px' }}>
         <div>
           <h2>Forgot Your <br></br>Password?</h2>
@@ -29,10 +52,10 @@ const ForgotPassword = () => {
             id="standard-basic"
             type="text"
             autoComplete="off"
-            name="username"
             placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleSubmit}
+            name="email"
+           value={mailerState.email}
             required
           />
           <br /><br />
@@ -42,7 +65,7 @@ const ForgotPassword = () => {
                     variant="contained"
                     color="primary"
                     size="large"
-                    
+                    style = {{height: '30px', width : '100px'}}
                     >
                     Send
                 </Button>

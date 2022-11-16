@@ -7,13 +7,13 @@ export default class emailsent extends React.Component {
     return (
       <div style={{ marginTop: '200px' }}>
         <div>
-          <h2>Email Successfully Sent</h2>
+          <h2>About</h2>
           <br></br>
-          <h3>If an account has been registered under email, an email will be sent with instructions on resetting the password.</h3>
+          <h3>This is a template page. Information will be updated shortly.</h3>
           <br></br>
         </div>
-          <Link href="/login">
-            Go Back to Login
+          <Link href="/">
+            Go Back to Home
           </Link>
         </div>
     );

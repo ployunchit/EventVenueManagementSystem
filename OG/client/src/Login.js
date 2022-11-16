@@ -71,6 +71,7 @@ export default class Login extends React.Component {
           <br /><br />
           <Button
             className="button_style"
+            style = {{height: '30px', width : '100px'}}
             variant="contained"
             color="primary"
             size="small"
