@@ -5,6 +5,7 @@ activitySchema = new Schema( {
 	name: String,
 	address: String,
 	price: Number,
+	capacity: Number,
     dateTime: String,
 	image: String,
 	user_id: Schema.ObjectId,
