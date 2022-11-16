@@ -12,6 +12,7 @@ var fs = require('fs');
 var venue = require("./model/venue.js");
 var activity = require("./model/activity.js");
 var user = require("./model/user.js");
+const nodemailer = require("nodemailer");
 
 var dir = './uploads';
 var upload = multer({
@@ -568,3 +569,44 @@ app.get("/get-activity", (req, res) => {
 app.listen(2000, () => {
   console.log("Server is Runing On port 2000");
 });
+
+
+
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.EMAIL,
+    pass: process.env.WORD,
+    clientId: process.env.OAUTH_CLIENTID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+  },
+ });
+ transporter.verify((err, success) => {
+  err
+    ? console.log(err)
+    : console.log(`=== Server is ready to take messages: ${success} ===`);
+ });
+ 
+ app.post("/send", function (req, res) {
+  let mailOptions = {
+    from: `${req.body.mailerState.email}`,
+    to: process.env.EMAIL,
+    subject: `Message from: ${req.body.mailerState.email}`,
+    text: `${req.body.mailerState.message}`,
+  };
+ 
+  transporter.sendMail(mailOptions, function (err, data) {
+    if (err) {
+      res.json({
+        status: "fail",
+      });
+    } else {
+      console.log("== Message Sent ==");
+      res.json({
+        status: "success",
+      });
+    }
+  });
+ });

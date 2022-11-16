@@ -65,6 +65,7 @@ const ChangePassword = () => {
         <Link href="/login">
         <Button
             className="button_style"
+            style = {{height: '30px', width : '200px'}}
             variant="contained"
             color="primary"
             size="large"
