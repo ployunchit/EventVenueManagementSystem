@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 venueSchema = new Schema( {
 	name: String,
 	address: String,
+	slots: String,
 	price: Number,
 	image: String,
 	user_id: Schema.ObjectId,
