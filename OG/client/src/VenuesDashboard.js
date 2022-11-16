@@ -32,7 +32,8 @@ export default class VenuesDashboard extends Component {
   componentDidMount = () => {
     let token = localStorage.getItem('token');
     if (!token) {
-      this.props.history.push('/login');
+      // this.props.history.push('/login');
+      window.location.href = '/login';
     } else {
       this.setState({ token: token }, () => {
         this.getVenue();

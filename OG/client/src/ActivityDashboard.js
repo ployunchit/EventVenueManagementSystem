@@ -33,7 +33,8 @@ export default class ActiviyDashboard extends Component {
   componentDidMount = () => {
     let token = localStorage.getItem('token');
     if (!token) {
-      this.props.history.push('/login');
+      // this.props.history.push('/login');
+      window.location.href = '/login';
     } else {
       this.setState({ token: token }, () => {
         this.getActivity();
@@ -102,7 +103,8 @@ export default class ActiviyDashboard extends Component {
 
   logOut = () => {
     localStorage.setItem('token', null);
-    this.props.history.push('/');
+    // this.props.history.push('/');
+    window.location.href = '/';
   }
 
   onChange = (e) => {
