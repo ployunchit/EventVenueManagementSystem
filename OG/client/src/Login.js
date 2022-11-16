@@ -26,7 +26,8 @@ export default class Login extends React.Component {
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
-      this.props.history.push('http://localhost:2000/VenuesDashboard');
+      // this.props.history.push('http://localhost:2000/VenuesDashboard');
+      window.location.href = '/VenuesDashboard';
     }).catch((err) => {
       if (err.response && err.response.data && err.response.data.errorMessage) {
         swal({
@@ -70,6 +71,7 @@ export default class Login extends React.Component {
           <br /><br />
           <Button
             className="button_style"
+            style = {{height: '30px', width : '100px'}}
             variant="contained"
             color="primary"
             size="small"
@@ -80,6 +82,10 @@ export default class Login extends React.Component {
           </Button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Link href="/register">
             Register
+          </Link>
+          <br /><br />
+          <Link href="/forgotpassword">
+            Forgot Password?
           </Link>
         </div>
       </div>

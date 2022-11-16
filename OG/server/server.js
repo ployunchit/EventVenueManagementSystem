@@ -12,6 +12,7 @@ var fs = require('fs');
 var venue = require("./model/venue.js");
 var activity = require("./model/activity.js");
 var user = require("./model/user.js");
+const nodemailer = require("nodemailer");
 
 var dir = './uploads';
 var upload = multer({
@@ -186,11 +187,12 @@ function checkUserAndGenerateToken(data, req, res) {
 /* Api to add venue */
 app.post("/add-venue", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.address && req.body.price) {
+    if (req.files && req.body && req.body.name && req.body.address && req.body.slots && req.body.price) {
 
       let new_venue = new venue();
       new_venue.name = req.body.name;
       new_venue.address = req.body.address;
+      new_venue.slots = req.body.slots;
       new_venue.price = req.body.price;
       new_venue.image = req.files[0].filename;
       new_venue.user_id = req.user.id;
@@ -225,12 +227,13 @@ app.post("/add-venue", upload.any(), (req, res) => {
 /* Api to add Activity */
 app.post("/add-activity", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.address && req.body.price && req.body.dateTime) {
+    if (req.files && req.body && req.body.name && req.body.address && req.body.price && req.body.capacity && req.body.dateTime) {
 
       let new_activity = new activity();
       new_activity.name = req.body.name;
       new_activity.address = req.body.address;
       new_activity.price = req.body.price;
+      new_activity.capacity = req.body.capacity;
       new_activity.dateTime = req.body.dateTime;
       new_activity.image = req.files[0].filename;
       new_activity.user_id = req.user.id;
@@ -266,7 +269,7 @@ app.post("/add-activity", upload.any(), (req, res) => {
 /* Api to update venue */
 app.post("/update-venue", upload.any(), (req, res) => {
   try {
-    if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
+    if (req.files && req.body && req.body.name && req.body.address && req.body.slots && req.body.price &&
       req.body.id) {
 
       venue.findById(req.body.id, (err, new_venue) => {
@@ -285,6 +288,9 @@ app.post("/update-venue", upload.any(), (req, res) => {
         }
         if (req.body.address) {
           new_venue.address = req.body.address;
+        }
+        if (req.body.slots) {
+          new_venue.slots = req.body.slots;
         }
         if (req.body.price) {
           new_venue.price = req.body.price;
@@ -324,7 +330,7 @@ app.post("/update-venue", upload.any(), (req, res) => {
 app.post("/update-activity", upload.any(), (req, res) => {
   try {
     if (req.files && req.body && req.body.name && req.body.address && req.body.price &&
-      req.body.id && req.body.dateTime) {
+      req.body.capacity && req.body.id && req.body.dateTime) {
 
       activity.findById(req.body.id, (err, new_activity) => {
 
@@ -345,6 +351,9 @@ app.post("/update-activity", upload.any(), (req, res) => {
         }
         if (req.body.price) {
           new_activity.price = req.body.price;
+        }
+        if (req.body.capacity) {
+          new_activity.capacity = req.body.capacity;
         }
         if (req.body.dateTime) {
           new_activity.dateTime = req.body.dateTime;
@@ -462,7 +471,7 @@ app.get("/get-venue", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    venue.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, image: 1 })
+    venue.find(query, { date: 1, name: 1, id: 1, address: 1, slots: 1, price: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
         venue.find(query).count()
@@ -517,7 +526,7 @@ app.get("/get-activity", (req, res) => {
     }
     var perPage = 5;
     var page = req.query.page || 1;
-    activity.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1, dateTime: 1, image: 1 })
+    activity.find(query, { date: 1, name: 1, id: 1, address: 1, price: 1,capacity : 1, dateTime: 1, image: 1 })
       .skip((perPage * page) - perPage).limit(perPage)
       .then((data) => {
         activity.find(query).count()
@@ -560,3 +569,44 @@ app.get("/get-activity", (req, res) => {
 app.listen(2000, () => {
   console.log("Server is Runing On port 2000");
 });
+
+
+
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.EMAIL,
+    pass: process.env.WORD,
+    clientId: process.env.OAUTH_CLIENTID,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+  },
+ });
+ transporter.verify((err, success) => {
+  err
+    ? console.log(err)
+    : console.log(`=== Server is ready to take messages: ${success} ===`);
+ });
+ 
+ app.post("/send", function (req, res) {
+  let mailOptions = {
+    from: `${req.body.mailerState.email}`,
+    to: process.env.EMAIL,
+    subject: `Message from: ${req.body.mailerState.email}`,
+    text: `${req.body.mailerState.message}`,
+  };
+ 
+  transporter.sendMail(mailOptions, function (err, data) {
+    if (err) {
+      res.json({
+        status: "fail",
+      });
+    } else {
+      console.log("== Message Sent ==");
+      res.json({
+        status: "success",
+      });
+    }
+  });
+ });

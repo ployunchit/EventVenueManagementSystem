@@ -30,7 +30,8 @@ export default class Register extends React.Component {
         icon: "success",
         type: "success"
       });
-      this.props.history.push('/');
+      // this.props.history.push('/');
+      window.location.href = '/';
     }).catch((err) => {
       swal({
         text: err.response.data.errorMessage,
@@ -105,6 +106,7 @@ export default class Register extends React.Component {
           <br /><br />
           <Button
             className="button_style"
+            style = {{height: '30px', width : '100px'}}
             variant="contained"
             color="primary"
             size="small"
@@ -112,8 +114,10 @@ export default class Register extends React.Component {
             onClick={this.register}
           >
             Register
-          </Button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Button> 
+          <br></br>
           <Link href="/login">
+            <p>Already Have an Account?</p>
             Login
           </Link>
         </div>
