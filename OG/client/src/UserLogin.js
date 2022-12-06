@@ -5,7 +5,7 @@ const axios = require('axios');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
-export default class Login extends React.Component {
+export default class UserLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,14 +20,14 @@ export default class Login extends React.Component {
 
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
-    axios.post('https://eventhub-server.onrender.com/login', {
+    axios.post('http://localhost:2000/login', {
       username: this.state.username,
       password: pwd,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
       // this.props.history.push('http://localhost:2000/VenuesDashboard');
-      window.location.href = '/';
+      window.location.href = '/VenuesDashboard';
     }).catch((err) => {
       if (err.response && err.response.data && err.response.data.errorMessage) {
         swal({
@@ -43,7 +43,7 @@ export default class Login extends React.Component {
     return (
       <div style={{ marginTop: '200px' }}>
         <div>
-          <h2>Owner Login</h2>
+          <h2>User Login</h2>
         </div>
 
         <div>
@@ -80,7 +80,7 @@ export default class Login extends React.Component {
           >
             Login
           </Button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link href="/register">
+          <Link href="/UserRegister">
             Register
           </Link>
           <br /><br />
