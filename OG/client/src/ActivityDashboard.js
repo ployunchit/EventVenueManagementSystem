@@ -52,7 +52,7 @@ export default class ActiviyDashboard extends Component {
     if (this.state.search) {
       data = `${data}&search=${this.state.search}`;
     }
-    axios.get(`http://localhost:2000/get-activity${data}`, {
+    axios.get(`https://eventhub-server.onrender.com/get-activity${data}`, {
       headers: {
         'token': this.state.token
       }
@@ -69,7 +69,7 @@ export default class ActiviyDashboard extends Component {
   }
 
   deleteActivity = (id) => {
-    axios.post('http://localhost:2000/delete-activity', {
+    axios.post('https://eventhub-server.onrender.com/delete-activity', {
       id: id
     }, {
       headers: {
@@ -130,7 +130,7 @@ export default class ActiviyDashboard extends Component {
     file.append('capacity', this.state.capacity);
     file.append('dateTime',this.state.dateTime);
 
-    axios.post('http://localhost:2000/add-activity', file, {
+    axios.post('https://eventhub-server.onrender.com/add-activity', file, {
       headers: {
         'content-type': 'multipart/form-data',
         'token': this.state.token
@@ -169,7 +169,7 @@ export default class ActiviyDashboard extends Component {
     file.append('capacity', this.state.capacity);
     file.append('dateTime',this.state.dateTime);
 
-    axios.post('http://localhost:2000/update-activity', file, {
+    axios.post('https://eventhub-server.onrender.com/update-activity', file, {
       headers: {
         'content-type': 'multipart/form-data',
         'token': this.state.token
@@ -475,7 +475,7 @@ export default class ActiviyDashboard extends Component {
                   <TableCell align="center" component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell align="center"><img src={`http://localhost:2000/${row.image}`} width="100" height="100" /></TableCell>
+                  <TableCell align="center"><img src={`https://eventhub-server.onrender.com/${row.image}`} width="100" height="100" /></TableCell>
                   <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>
                   <TableCell align="center">{row.capacity}</TableCell>
