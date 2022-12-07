@@ -14,13 +14,24 @@ export default function Navbar() {
         <CustomLink to="/UserProfile">Profile</CustomLink>
         <CustomLink to="/login">Login</CustomLink>
         <CustomLink to="/register">Register</CustomLink>
-        <CustomLink to="/chat">Chat</CustomLink>
+        <RedirectExample to="/chat">Chat</RedirectExample>
 
       </ul>
     </nav>
   )
 }
+function RedirectExample() {
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      // 👇️ redirects to an external URL
+      window.location.replace('https://eventhubse-chat.onrender.com/');
+    }, 3000);
 
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return <>Will redirect in 3 seconds...</>;
+}
 function CustomLink({ to, children, ...props }) {
   const resolvedPath = useResolvedPath(to)
   const isActive = useMatch({ path: resolvedPath.pathname, end: true })
