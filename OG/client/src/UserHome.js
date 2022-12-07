@@ -3,9 +3,9 @@ import './App.css';
 import HeroSection from './HeroSection';
 import Footer from './Footer';
 import Cards from './Cards';
-import Navbar from './navbar/navbar';
+import Navbar from './navbar/UserNavbar';
 
-function Home() {
+function UserHome() {
   return (
     <>
     <Navbar></Navbar>
@@ -16,4 +16,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default UserHome;

@@ -6,6 +6,8 @@ import {
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
+import './navbar.css';
+import Navbar from './navbar/navbar';
 const axios = require('axios');
 
 export default class VenuesDashboard extends Component {
@@ -229,6 +231,7 @@ export default class VenuesDashboard extends Component {
   render() {
     return (
       <div>
+        <Navbar></Navbar>
         {this.state.loading && <LinearProgress size={40} />}
         <div>
           <br/><br/>
