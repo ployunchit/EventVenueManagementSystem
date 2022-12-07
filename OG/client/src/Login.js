@@ -13,7 +13,7 @@ export default class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      UserOwner: ''
+      UserOwner: 'owner'
     };
   }
 
@@ -26,7 +26,6 @@ export default class Login extends React.Component {
     axios.post('https://eventhub-server.onrender.com/login', {
       username: this.state.username,
       password: pwd,
-      UserOwner: this.state.UserOwner,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);

@@ -29,8 +29,8 @@ const ForgotPassword = () => {
       .then((res) => res.json())
       .then(() => {
         setMailerState({
-          email: "",
-          message: "",
+          email: mailerState.email,
+          message: "Test",
         });
       });
   };
