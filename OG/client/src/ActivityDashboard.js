@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {
   Button, TextField, Dialog, DialogActions, LinearProgress,
   DialogTitle, DialogContent, TableBody, Table,
@@ -29,8 +29,10 @@ export default class ActiviyDashboard extends Component {
       search: '',
       activities: [],
       pages: 0,
-      loading: false
+      loading: false,
+      email: ''
     };
+    
   }
 
   componentDidMount = () => {
@@ -43,6 +45,15 @@ export default class ActiviyDashboard extends Component {
         this.getActivity();
       });
     }
+  }
+
+ sendEmail = (name) =>
+  {
+    swal({
+      text: "Your friend has been invited",
+      icon: "success",
+      type: "success"
+    })
   }
 
   getActivity = () => {
@@ -469,6 +480,7 @@ export default class ActiviyDashboard extends Component {
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Capacity</TableCell>
                 <TableCell align="center">Date and Time</TableCell>
+                <TableCell align="center">invite Friends</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
@@ -483,6 +495,18 @@ export default class ActiviyDashboard extends Component {
                   <TableCell align="center">{row.price}</TableCell>
                   <TableCell align="center">{row.capacity}</TableCell>
                   <TableCell align="center">{row.dateTime}</TableCell>
+                  <TableCell align="center">
+                    <TextField
+                      id="standard-basic"
+                      type="text"
+                      autoComplete="off"
+                      name="email"
+                      value={this.state.email}
+                      onChange={this.sendEmail(row.name)}
+                      placeholder="Enter Email"
+                    >
+                    </TextField>
+                  </TableCell>
                   <TableCell align="center">
                     <Button
                       className="button_style"
