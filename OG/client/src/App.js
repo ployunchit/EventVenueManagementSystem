@@ -31,6 +31,7 @@ const App = () => {
      <Navbar />
      <Routes>
       <Route exact path='/' element={<UserOwnerSwitch/>} />
+      <Route exact path='/Home' element={<Home/>} />
       <Route exact path='/login' element={<Login/>} />
       <Route exact path='/register' element={<Register/>} />
       <Route exact path='/forgotpassword' element={<ForgotPassword/>} />

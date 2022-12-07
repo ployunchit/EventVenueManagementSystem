@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
-import { Button, TextField, Link } from '@material-ui/core';
+import { Button, TextField, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core';
 const axios = require('axios');
 
 export default class Register extends React.Component {
@@ -11,7 +11,8 @@ export default class Register extends React.Component {
       lastName: '',
       username: '',
       password: '',
-      confirm_password: ''
+      confirm_password: '',
+      UserOwner: '',
     };
   }
 
@@ -24,6 +25,7 @@ export default class Register extends React.Component {
       lastName: this.state.lastName,
       username: this.state.username,
       password: this.state.password,
+      UserOwner: this.state.UserOwner,
     }).then((res) => {
       swal({
         text: res.data.title,
@@ -31,7 +33,7 @@ export default class Register extends React.Component {
         type: "success"
       });
       // this.props.history.push('/');
-      window.location.href = '/';
+      window.location.href = '/Home';
     }).catch((err) => {
       swal({
         text: err.response.data.errorMessage,
@@ -103,6 +105,19 @@ export default class Register extends React.Component {
             placeholder="Confirm Password"
             required
           />
+          <br /><br />
+          <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="UserOwner"
+            value={this.state.UserOwner}
+            onChange={this.onChange}
+            >
+            <FormControlLabel value="user" control={<Radio />} label="User" />
+            <FormControlLabel value="owner" control={<Radio />} label="Owner" />
+            </RadioGroup>
+          </FormControl>
           <br /><br />
           <Button
             className="button_style"

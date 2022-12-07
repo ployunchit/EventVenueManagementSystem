@@ -1,44 +1,38 @@
 import React, { Component } from 'react';
 import { Button, TextField, Link } from '@material-ui/core';
-const axios = require('axios');
-const bcrypt = require('bcryptjs');
-var salt = bcrypt.genSaltSync(10);
+import './HeroSection.css';
+
 
 export default class UserOwnerSwitch extends React.Component 
 {
   render() {
     return (
-      <div style={{ marginTop: '200px' }}>
-        <div>
-          <h2>Login</h2>
-        </div>
-
-        <div>
-        <Link href="/Userlogin">
+      <div className='hero-container'>
+      <h1>Welcome to EventHub</h1>
+      <Link href="/login">
         <Button
             className="button_style"
-            style = {{height: '30px', width : '100px'}}
+            style = {{height: '60px', width : '200px'}}
             variant="contained"
             color="primary"
             size="small"
           >
-            User
+            Login
           </Button>
           </Link>
-          <Link href="/login">
+          <br></br>
+          <Link href="/register">
           <Button
             className="button_style"
-            style = {{height: '30px', width : '100px'}}
+            style = {{height: '60px', width : '200px'}}
             variant="contained"
             color="primary"
             size="small"
           >
-            Owner
+            Register
           </Button>
-          </Link> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <br /><br />
-        </div>
-      </div>
+          </Link>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
     );
   }
 }

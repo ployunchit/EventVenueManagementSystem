@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
-import { Button, TextField, Link } from '@material-ui/core';
+import { Button, TextField, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core';
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
@@ -10,7 +10,8 @@ export default class Login extends React.Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      UserOwner: ''
     };
   }
 
@@ -23,11 +24,12 @@ export default class Login extends React.Component {
     axios.post('https://eventhub-server.onrender.com/login', {
       username: this.state.username,
       password: pwd,
+      UserOwner: this.state.UserOwner,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
       // this.props.history.push('http://localhost:2000/VenuesDashboard');
-      window.location.href = '/';
+      window.location.href = '/Home';
     }).catch((err) => {
       if (err.response && err.response.data && err.response.data.errorMessage) {
         swal({
@@ -68,6 +70,19 @@ export default class Login extends React.Component {
             placeholder="Password"
             required
           />
+          <br /><br />
+          <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="UserOwner"
+            value={this.state.UserOwner}
+            onChange={this.onChange}
+            >
+            <FormControlLabel value="user" control={<Radio />} label="User" />
+            <FormControlLabel value="owner" control={<Radio />} label="Owner" />
+            </RadioGroup>
+          </FormControl>
           <br /><br />
           <Button
             className="button_style"
