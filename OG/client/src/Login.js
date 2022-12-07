@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
 import { Button, TextField, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core';
+import './navbar.css';
+import Navbar from './navbar/LoginNavbar';
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
@@ -29,7 +31,15 @@ export default class Login extends React.Component {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
       // this.props.history.push('http://localhost:2000/VenuesDashboard');
-      window.location.href = '/Home';
+      if(this.state.UserOwner == "owner")
+      {
+        window.location.href = '/Home';
+      }
+      else
+      {
+        window.location.href = '/UserHome';
+      }
+      
     }).catch((err) => {
       if (err.response && err.response.data && err.response.data.errorMessage) {
         swal({
@@ -43,9 +53,11 @@ export default class Login extends React.Component {
 
   render() {
     return (
+      <div>
+        <Navbar></Navbar>
       <div style={{ marginTop: '200px' }}>
         <div>
-          <h2>Owner Login</h2>
+          <h2>Login</h2>
         </div>
 
         <div>
@@ -103,6 +115,7 @@ export default class Login extends React.Component {
             Forgot Password?
           </Link>
         </div>
+      </div>
       </div>
     );
   }

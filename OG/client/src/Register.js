@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
 import { Button, TextField, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core';
+import './navbar.css';
+import Navbar from './navbar/LoginNavbar';
 const axios = require('axios');
 
 export default class Register extends React.Component {
@@ -33,7 +35,14 @@ export default class Register extends React.Component {
         type: "success"
       });
       // this.props.history.push('/');
-      window.location.href = '/Home';
+      if(this.state.UserOwner == "owner")
+      {
+        window.location.href = '/Home';
+      }
+      else
+      {
+        window.location.href = '/UserHome';
+      }
     }).catch((err) => {
       swal({
         text: err.response.data.errorMessage,
@@ -45,6 +54,8 @@ export default class Register extends React.Component {
 
   render() {
     return (
+      <div>
+        <Navbar></Navbar>
       <div style={{ marginTop: '200px' }}>
         <div>
           <h2>Register</h2>
@@ -136,6 +147,7 @@ export default class Register extends React.Component {
             Login
           </Link>
         </div>
+      </div>
       </div>
     );
   }

@@ -7,10 +7,10 @@ import {
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 import './navbar.css';
-import Navbar from './navbar/navbar';
+import Navbar from './navbar/UserNavbar';
 const axios = require('axios');
 
-export default class ActiviyDashboard extends Component {
+export default class UserActiviyDashboard extends Component {
   constructor() {
     super();
     this.state = {
@@ -242,23 +242,6 @@ export default class ActiviyDashboard extends Component {
           <br/><br/>
           <h2>Activities Dashboard</h2>
           <br/>
-          <Button
-            className="button_style"
-            variant="contained"
-            color="primary"
-            size="small"
-            onClick={this.handleActivityOpen}
-          >
-            Add Activity
-          </Button>
-          <Button
-            className="button_style"
-            variant="contained"
-            size="small"
-            onClick={this.logOut}
-          >
-            Log Out
-          </Button>
         </div>
 
         {/* Edit Activity */}

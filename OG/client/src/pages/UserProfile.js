@@ -2,9 +2,12 @@ import React from 'react';
 import EditableLabel from 'react-inline-editing';
 import {useNavigate} from 'react-router-dom';
 import './UserProfile.css';
+import '../navbar.css';
+import Navbar from '../navbar/navbar';
 
 function UserProfile() {
   return (
+    <div><Navbar></Navbar>
   <div class = "row">
     <div class="column">
       <div class="card">
@@ -37,6 +40,7 @@ function UserProfile() {
         </div>
       </div>
     </div>
+  </div>
   </div>
   
   );
