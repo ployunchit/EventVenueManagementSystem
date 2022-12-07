@@ -2,6 +2,8 @@ import React, { useState } from "react";
 // import { useEffect } from "react";
 import Input from "./Input";
 import useForm from "./form-hooks";
+import '../navbar.css';
+import Navbar from '../navbar/navbar';
 
 import styles from "./UserProfile.module.css";
 
@@ -96,7 +98,10 @@ function UserProfile() {
 
   console.log(formState);
 
+
   return (
+    <div>
+      <Navbar></Navbar>
     <div className={styles.profile}>
       <div className={styles["profile-header"]}>
         <div className={styles["profile-header-h1"]}>Profile Page</div>
@@ -189,6 +194,7 @@ function UserProfile() {
           </form>
         )}
       </div>
+    </div>
     </div>
   );
 }
