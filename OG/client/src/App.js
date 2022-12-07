@@ -13,6 +13,7 @@ import VenuesDashboard from './VenuesDashboard';
 import UserVenuesDashboard from './UserVenuesDashboard';
 import About from './About';
 import ActivityDashboard from './ActivityDashboard';
+import UserActivityDashboard from './UserActivityDashboard';
 import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./changePassword";
 import EmailSent from "./emailsent";
@@ -40,6 +41,7 @@ const App = () => {
       <Route path='/VenuesDashboard' element={<VenuesDashboard/>} />
       <Route path='/UserVenuesDashboard' element={<UserVenuesDashboard/>} />
       <Route path='/ActivityDashboard' element={<ActivityDashboard/>} />
+      <Route path='/UserActivityDashboard' element={<UserActivityDashboard/>} />
       <Route path='/UserOwnerSwitch' element={<UserOwnerSwitch/>} />
       <Route path='/UserProfile' element={<UserProfile/>} />
      </Routes>

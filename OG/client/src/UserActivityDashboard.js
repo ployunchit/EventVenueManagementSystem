@@ -452,7 +452,7 @@ export default class UserActiviyDashboard extends Component {
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Capacity</TableCell>
                 <TableCell align="center">Date and Time</TableCell>
-                <TableCell align="center">Action</TableCell>
+                <TableCell align="center">Book</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -474,16 +474,7 @@ export default class UserActiviyDashboard extends Component {
                       size="small"
                       onClick={(e) => this.handleActivityEditOpen(row)}
                     >
-                      Edit
-                  </Button>
-                    <Button
-                      className="button_style"
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                      onClick={(e) => this.deleteActivity(row._id)}
-                    >
-                      Delete
+                      Book
                   </Button>
                   </TableCell>
                 </TableRow>
