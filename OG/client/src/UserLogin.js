@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
-import { Button, TextField, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core';
+import { Button, TextField, Link } from '@material-ui/core';
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 
-export default class Login extends React.Component {
+export default class UserLogin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: '',
-      UserOwner: ''
+      password: ''
     };
   }
 
@@ -21,15 +20,14 @@ export default class Login extends React.Component {
 
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
-    axios.post('https://eventhub-server.onrender.com/login', {
+    axios.post('http://localhost:2000/login', {
       username: this.state.username,
       password: pwd,
-      UserOwner: this.state.UserOwner,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
       // this.props.history.push('http://localhost:2000/VenuesDashboard');
-      window.location.href = '/Home';
+      window.location.href = '/VenuesDashboard';
     }).catch((err) => {
       if (err.response && err.response.data && err.response.data.errorMessage) {
         swal({
@@ -45,7 +43,7 @@ export default class Login extends React.Component {
     return (
       <div style={{ marginTop: '200px' }}>
         <div>
-          <h2>Owner Login</h2>
+          <h2>User Login</h2>
         </div>
 
         <div>
@@ -71,19 +69,6 @@ export default class Login extends React.Component {
             required
           />
           <br /><br />
-          <FormControl>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="UserOwner"
-            value={this.state.UserOwner}
-            onChange={this.onChange}
-            >
-            <FormControlLabel value="user" control={<Radio />} label="User" />
-            <FormControlLabel value="owner" control={<Radio />} label="Owner" />
-            </RadioGroup>
-          </FormControl>
-          <br /><br />
           <Button
             className="button_style"
             style = {{height: '30px', width : '100px'}}
@@ -95,7 +80,7 @@ export default class Login extends React.Component {
           >
             Login
           </Button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Link href="/register">
+          <Link href="/UserRegister">
             Register
           </Link>
           <br /><br />

@@ -3,13 +3,13 @@ import React, { Component }  from 'react';
 
 export default function Navbar() {
   return (
-    <nav className="nav">
-      <Link to="/Home" className="site-title">
+    <nav className="UserNav">
+      <Link to="/" className="site-title">
         EventHUB
       </Link>
       <ul>
-        <CustomLink to="/VenuesDashboard">Venues</CustomLink>
-        <CustomLink to="/ActivityDashboard">Activities</CustomLink>
+        <CustomLink to="/UserVenuesDashboard">Venues</CustomLink>
+        <CustomLink to="/UserActivityDashboard">Activities</CustomLink>
         <CustomLink to="/about">About</CustomLink>
         <CustomLink to="/chat">Chat</CustomLink>
         <CustomLink to="/UserProfile">Profile</CustomLink>

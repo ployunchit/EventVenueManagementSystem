@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
-import { Button, TextField, Link, Radio, RadioGroup, FormControl, FormControlLabel, FormLabel } from '@material-ui/core';
+import { Button, TextField, Link } from '@material-ui/core';
 const axios = require('axios');
 
-export default class Register extends React.Component {
+export default class UserRegister extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,8 +11,7 @@ export default class Register extends React.Component {
       lastName: '',
       username: '',
       password: '',
-      confirm_password: '',
-      UserOwner: '',
+      confirm_password: ''
     };
   }
 
@@ -20,12 +19,11 @@ export default class Register extends React.Component {
 
   register = () => {
 
-    axios.post('https://eventhub-server.onrender.com/register', {
+    axios.post('http://localhost:2000/register', {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       username: this.state.username,
       password: this.state.password,
-      UserOwner: this.state.UserOwner,
     }).then((res) => {
       swal({
         text: res.data.title,
@@ -33,7 +31,7 @@ export default class Register extends React.Component {
         type: "success"
       });
       // this.props.history.push('/');
-      window.location.href = '/Home';
+      window.location.href = '/';
     }).catch((err) => {
       swal({
         text: err.response.data.errorMessage,
@@ -47,7 +45,7 @@ export default class Register extends React.Component {
     return (
       <div style={{ marginTop: '200px' }}>
         <div>
-          <h2>Register</h2>
+          <h2>Register as a User</h2>
         </div>
 
         <div>
@@ -106,19 +104,6 @@ export default class Register extends React.Component {
             required
           />
           <br /><br />
-          <FormControl>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            name="UserOwner"
-            value={this.state.UserOwner}
-            onChange={this.onChange}
-            >
-            <FormControlLabel value="user" control={<Radio />} label="User" />
-            <FormControlLabel value="owner" control={<Radio />} label="Owner" />
-            </RadioGroup>
-          </FormControl>
-          <br /><br />
           <Button
             className="button_style"
             style = {{height: '30px', width : '100px'}}
@@ -131,7 +116,7 @@ export default class Register extends React.Component {
             Register
           </Button> 
           <br></br>
-          <Link href="/login">
+          <Link href="/UserLogin">
             <p>Already Have an Account?</p>
             Login
           </Link>
