@@ -17,6 +17,7 @@ import ChangePassword from "./changePassword";
 import EmailSent from "./emailsent";
 import Home from "./Home";
 import UserProfile from './pages/UserProfile';
+import Chat from './Chat';
 import './Login.css';
 
 
@@ -36,6 +37,7 @@ const App = () => {
       <Route path='/VenuesDashboard' element={<VenuesDashboard/>} />
       <Route path='/ActivityDashboard' element={<ActivityDashboard/>} />
       <Route path='/UserProfile' element={<UserProfile/>} />
+      <Route ath ='/chat' element={<Chat/>}/>
      </Routes>
 
    </div>
