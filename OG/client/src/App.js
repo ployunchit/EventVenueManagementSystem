@@ -13,14 +13,14 @@ import VenuesDashboard from './VenuesDashboard';
 import UserVenuesDashboard from './UserVenuesDashboard';
 import About from './About';
 import ActivityDashboard from './ActivityDashboard';
+import UserActivityDashboard from './UserActivityDashboard';
 import ForgotPassword from "./ForgotPassword";
 import ChangePassword from "./changePassword";
 import EmailSent from "./emailsent";
 import Home from "./Home";
+import UserHome from "./UserHome";
 import UserProfile from './pages/UserProfile';
 import UserOwnerSwitch from "./UserOwnerSwitch";
-import UserLogin from "./UserLogin";
-import UserRegister from "./UserRegister";
 import './Login.css';
 
 
@@ -28,10 +28,10 @@ import './Login.css';
 const App = () => {
  return (
    <div>
-     <Navbar />
      <Routes>
       <Route exact path='/' element={<UserOwnerSwitch/>} />
       <Route exact path='/Home' element={<Home/>} />
+      <Route exact path='/UserHome' element={<UserHome/>} />
       <Route exact path='/login' element={<Login/>} />
       <Route exact path='/register' element={<Register/>} />
       <Route exact path='/forgotpassword' element={<ForgotPassword/>} />
@@ -41,9 +41,8 @@ const App = () => {
       <Route path='/VenuesDashboard' element={<VenuesDashboard/>} />
       <Route path='/UserVenuesDashboard' element={<UserVenuesDashboard/>} />
       <Route path='/ActivityDashboard' element={<ActivityDashboard/>} />
+      <Route path='/UserActivityDashboard' element={<UserActivityDashboard/>} />
       <Route path='/UserOwnerSwitch' element={<UserOwnerSwitch/>} />
-      <Route path='/UserLogin' element={<UserLogin/>} />
-      <Route path='/UserRegister' element={<UserRegister/>} />
       <Route path='/UserProfile' element={<UserProfile/>} />
      </Routes>
 

@@ -12,7 +12,7 @@ export default class emailsent extends React.Component {
           <h3>This is a template page. Information will be updated shortly.</h3>
           <br></br>
         </div>
-          <Link href="/">
+          <Link href="/Home">
             Go Back to Home
           </Link>
         </div>
