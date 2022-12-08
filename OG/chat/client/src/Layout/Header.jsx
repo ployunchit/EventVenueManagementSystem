@@ -64,7 +64,7 @@ const Header = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Link href="/" className={classes.title}>
-                        <img src={logo} alt="Logo" />
+                        <img src={logo} width="7%" alt="Logo" />
                     </Link>
                     <Button
                         aria-owns={anchorEl ? 'simple-menu' : undefined}

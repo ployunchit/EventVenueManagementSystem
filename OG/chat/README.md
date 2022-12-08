@@ -1,4 +1,4 @@
-# MERN: Full-stack Chat Application
+# MERN: Full-stack Chat Application for EventHub
 
 #### Introduction
 
