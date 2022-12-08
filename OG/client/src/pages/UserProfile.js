@@ -4,6 +4,7 @@ import Input from "./Input";
 import useForm from "./form-hooks";
 import '../navbar.css';
 import Navbar from '../navbar/navbar';
+import {Button} from '@material-ui/core';
 
 import styles from "./UserProfile.module.css";
 
@@ -96,6 +97,22 @@ function UserProfile() {
     setPasswordCheck(true);
   };
 
+  const uploadedImage = React.useRef(null);
+  const imageUploader = React.useRef(null);
+
+  const handleImageUpload = e => {
+    const [file] = e.target.files;
+    if (file) {
+      const reader = new FileReader();
+      const { current } = uploadedImage;
+      current.file = file;
+      reader.onload = e => {
+        current.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   console.log(formState);
 
 
@@ -115,11 +132,21 @@ function UserProfile() {
         <div className={styles["profile-image"]}>
           <div className={styles["profile-image-img"]}>
             <img
-              src="https://images.unsplash.com/photo-1584999734482-0361aecad844?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              ref={uploadedImage}
               alt="Profile"
             />
           </div>
-          <button className={styles.btn}>Change Profile Image</button>
+          <button className={styles.btn} onClick={() => imageUploader.current.click()}>Change Profile Image</button>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            ref={imageUploader}
+            style={{
+              display: "none"
+            }}
+          />
         </div>
       </div>
       <div className={styles["profile-settings"]}>

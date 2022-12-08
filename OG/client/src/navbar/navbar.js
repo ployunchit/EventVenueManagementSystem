@@ -13,7 +13,6 @@ export default function Navbar() {
         <CustomLink to="/about">About</CustomLink>
         <CustomLink to="/chat">Chat</CustomLink>
         <CustomLink to="/UserProfile">Profile</CustomLink>
-
       </ul>
     </nav>
   )
