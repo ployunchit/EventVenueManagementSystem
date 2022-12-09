@@ -27,6 +27,7 @@ export default class ActiviyDashboard extends Component {
       fileName: '',
       page: 1,
       search: '',
+      invite: '',
       activities: [],
       pages: 0,
       loading: false,
@@ -480,7 +481,7 @@ export default class ActiviyDashboard extends Component {
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Capacity</TableCell>
                 <TableCell align="center">Date and Time</TableCell>
-                <TableCell align="center">invite Friends</TableCell>
+                <TableCell align="center">Invite Friends</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
@@ -498,14 +499,24 @@ export default class ActiviyDashboard extends Component {
                   <TableCell align="center">
                     <TextField
                       id="standard-basic"
-                      type="text"
+                      type="invite"
                       autoComplete="off"
-                      name="email"
-                      value={this.state.email}
-                      onChange={this.sendEmail(row.name)}
+                      name="invite"
+                      value={this.state.invite}
+                      onChange={this.onChange}
                       placeholder="Enter Email"
+                      required
                     >
                     </TextField>
+                    <Button
+                    className="button_style"
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={(e) => this.sendEmail(row.name)}
+                    >
+                      Invite
+                      </Button>
                   </TableCell>
                   <TableCell align="center">
                     <Button
