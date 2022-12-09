@@ -53,7 +53,7 @@ export default class UserVenuesDashboard extends Component {
     if (this.state.search) {
       data = `${data}&search=${this.state.search}`;
     }
-    axios.get(`https://eventhub-server.onrender.com/get-venue${data}`, {
+    axios.get(`hhttp://localhost:2000/get-venue${data}`, {
       headers: {
         'token': this.state.token
       }
@@ -108,7 +108,7 @@ export default class UserVenuesDashboard extends Component {
     file.append('slots', this.state.slots);
     file.append('price', this.state.price);
 
-    axios.post('https://eventhub-server.onrender.com/update-venue', file, {
+    axios.post('http://localhost:2000/update-venue', file, {
       headers: {
         'content-type': 'multipart/form-data',
         'token': this.state.token
@@ -214,7 +214,7 @@ export default class UserVenuesDashboard extends Component {
                   <TableCell align="center" component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell align="center"><img src={`https://eventhub-server.onrender.com/${row.image}`} width="100" height="100" /></TableCell>
+                  <TableCell align="center"><img src={`http://localhost:2000/${row.image}`} width="100" height="100" /></TableCell>
                   <TableCell align="center">{row.address}</TableCell>
                   <TableCell align="center">{row.slots}</TableCell>
                   <TableCell align="center">{row.price}</TableCell>

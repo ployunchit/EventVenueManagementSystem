@@ -23,7 +23,7 @@ export default class Login extends React.Component {
 
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
-    axios.post('https://eventhub-server.onrender.com/login', {
+    axios.post('http://localhost:2000/login', {
       username: this.state.username,
       password: pwd,
     }).then((res) => {
