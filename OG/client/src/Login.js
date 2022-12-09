@@ -23,13 +23,12 @@ export default class Login extends React.Component {
 
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
-    axios.post('http://localhost:2000/login', {
+    axios.post('https://eventhub-server.onrender.com/login', {
       username: this.state.username,
       password: pwd,
     }).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user_id', res.data.id);
-      // this.props.history.push('http://localhost:2000/VenuesDashboard');
       if(this.state.UserOwner == "owner")
       {
         window.location.href = '/Home';

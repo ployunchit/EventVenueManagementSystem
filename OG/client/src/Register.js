@@ -22,7 +22,7 @@ export default class Register extends React.Component {
 
   register = () => {
 
-    axios.post('http://localhost:2000/register', {
+    axios.post('https://eventhub-server.onrender.com/register', {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       username: this.state.username,

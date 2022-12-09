@@ -7,7 +7,6 @@ var multer = require('multer'),
   bodyParser = require('body-parser'),
   path = require('path');
 var mongoose = require("mongoose");
-// mongoose.connect("mongodb://localhost/EventHub");
 url = 'mongodb+srv://dapp:dapp@eventhubse.tsxvcwi.mongodb.net/EventHub?retryWrites=true&w=majority';
 mongoose.connect(url);
 var fs = require('fs');
