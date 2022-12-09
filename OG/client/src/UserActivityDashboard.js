@@ -70,33 +70,6 @@ export default class UserActiviyDashboard extends Component {
     });
   }
 
-  deleteActivity = (id) => {
-    axios.post('https://eventhub-server.onrender.com/delete-activity', {
-      id: id
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'token': this.state.token
-      }
-    }).then((res) => {
-
-      swal({
-        text: res.data.title,
-        icon: "success",
-        type: "success"
-      });
-
-      this.setState({ page: 1 }, () => {
-        this.pageChange(null, 1);
-      });
-    }).catch((err) => {
-      swal({
-        text: err.response.data.errorMessage,
-        icon: "error",
-        type: "error"
-      });
-    });
-  }
 
   pageChange = (e, page) => {
     this.setState({ page: page }, () => {
@@ -104,11 +77,6 @@ export default class UserActiviyDashboard extends Component {
     });
   }
 
-  logOut = () => {
-    localStorage.setItem('token', null);
-    // this.props.history.push('/');
-    window.location.href = '/';
-  }
 
   onChange = (e) => {
     if (e.target.files && e.target.files[0] && e.target.files[0].name) {
@@ -122,43 +90,19 @@ export default class UserActiviyDashboard extends Component {
     }
   };
 
-  addActivity = () => {
-    const fileInput = document.querySelector("#fileInput");
-    const file = new FormData();
-    file.append('file', fileInput.files[0]);
-    file.append('name', this.state.name);
-    file.append('address', this.state.address);
-    file.append('price', this.state.price);
-    file.append('capacity', this.state.capacity);
-    file.append('dateTime',this.state.dateTime);
 
-    axios.post('https://eventhub-server.onrender.com/add-activity', file, {
-      headers: {
-        'content-type': 'multipart/form-data',
-        'token': this.state.token
-      }
-    }).then((res) => {
-
-      swal({
-        text: res.data.title,
-        icon: "success",
-        type: "success"
-      });
-
-      this.handleActivityClose();
-      this.setState({ name: '', address: '', price: '', capacity:'', dateTime: '', file: null, page: 1 }, () => {
-        this.getActivity();
-      });
-    }).catch((err) => {
-      swal({
-        text: err.response.data.errorMessage,
-        icon: "error",
-        type: "error"
-      });
-      this.handleActivityClose();
+  handleActivityOpen = () => {
+    this.setState({
+      openActivityModal: true,
+      id: '',
+      name: '',
+      address: '',
+      price: '',
+      capacity: '',
+      dateTime: '',
+      fileName: ''
     });
-
-  }
+  };
 
   updateActivity = () => {
     const fileInput = document.querySelector("#fileInput");
@@ -168,7 +112,7 @@ export default class UserActiviyDashboard extends Component {
     file.append('name', this.state.name);
     file.append('address', this.state.address);
     file.append('price', this.state.price);
-    file.append('capacity', this.state.capacity);
+    file.append('capacity', this.state.capacity - 1);
     file.append('dateTime',this.state.dateTime);
 
     axios.post('https://eventhub-server.onrender.com/update-activity', file, {
@@ -179,7 +123,7 @@ export default class UserActiviyDashboard extends Component {
     }).then((res) => {
 
       swal({
-        text: res.data.title,
+        text: "Thank you for registering for this event! Enjoy!",
         icon: "success",
         type: "success"
       });
@@ -198,19 +142,6 @@ export default class UserActiviyDashboard extends Component {
     });
 
   }
-
-  handleActivityOpen = () => {
-    this.setState({
-      openActivityModal: true,
-      id: '',
-      name: '',
-      address: '',
-      price: '',
-      capacity: '',
-      dateTime: '',
-      fileName: ''
-    });
-  };
 
   handleActivityClose = () => {
     this.setState({ openActivityModal: false });
@@ -243,195 +174,17 @@ export default class UserActiviyDashboard extends Component {
           <h2>Activities Dashboard</h2>
           <br/>
         </div>
-
-        {/* Edit Activity */}
-        <Dialog
-          open={this.state.openActivityEditModal}
-          onClose={this.handleActivityClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Edit Activity</DialogTitle>
-          <DialogContent>
-            <TextField
-              id="standard-basic"
-              type="text"
-              autoComplete="off"
-              name="name"
-              value={this.state.name}
-              onChange={this.onChange}
-              placeholder="Name"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="text"
-              autoComplete="off"
-              name="address"
-              value={this.state.address}
-              onChange={this.onChange}
-              placeholder="Address"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="number"
-              autoComplete="off"
-              name="price"
-              value={this.state.price}
-              onChange={this.onChange}
-              placeholder="Price"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="number"
-              autoComplete="off"
-              name="capacity"
-              value={this.state.capacity}
-              onChange={this.onChange}
-              placeholder="capacity"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="text"
-              autoComplete="off"
-              name="dateTime"
-              value={this.state.dateTime}
-              onChange={this.onChange}
-              placeholder="Date and Time"
-              required
-            /><br />
-            <br />
-            <Button
-              variant="contained"
-              component="label"
-            > Upload
-            <input
-                id="standard-basic"
-                type="file"
-                accept="image/*"
-                name="file"
-                value={this.state.file}
-                onChange={this.onChange}
-                id="fileInput"
-                placeholder="File"
-                hidden
-              />
-            </Button>&nbsp;
-            {this.state.fileName}
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={this.handleActivityEditClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.capacity == '' || this.state.dateTime == ''}
-              onClick={(e) => this.updateActivity()} color="primary" autoFocus>
-              Edit Activity
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        {/* Add Activity */}
-        <Dialog
-          open={this.state.openActivityModal}
-          onClose={this.handleActivityClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">Add Activity</DialogTitle>
-          <DialogContent>
-            <TextField
-              id="standard-basic"
-              type="text"
-              autoComplete="off"
-              name="name"
-              value={this.state.name}
-              onChange={this.onChange}
-              placeholder="Name"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="text"
-              autoComplete="off"
-              name="address"
-              value={this.state.address}
-              onChange={this.onChange}
-              placeholder="Address"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="number"
-              autoComplete="off"
-              name="price"
-              value={this.state.price}
-              onChange={this.onChange}
-              placeholder="Price"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="number"
-              autoComplete="off"
-              name="capacity"
-              value={this.state.capacity}
-              onChange={this.onChange}
-              placeholder="capacity"
-              required
-            /><br />
-            <TextField
-              id="standard-basic"
-              type="text"
-              autoComplete="off"
-              name="dateTime"
-              value={this.state.dateTime}
-              onChange={this.onChange}
-              placeholder="Date and Time"
-              required
-            /><br />
-            <br />
-            <Button
-              variant="contained"
-              component="label"
-            > Upload
-            <input
-                id="standard-basic"
-                type="file"
-                accept="image/*"
-                // inputProps={{
-                //   accept: "image/*"
-                // }}
-                name="file"
-                value={this.state.file}
-                onChange={this.onChange}
-                id="fileInput"
-                placeholder="File"
-                hidden
-                required
-              />
-            </Button>&nbsp;
-            {this.state.fileName}
-          </DialogContent>
-
-          <DialogActions>
-            <Button onClick={this.handleActivityClose} color="primary">
-              Cancel
-            </Button>
-            <Button
-              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.capacity == '' || this.state.dateTime == '' || this.state.file == null}
-              onClick={(e) => this.addActivity()} color="primary" autoFocus>
-              Add Activity
-            </Button>
-          </DialogActions>
-        </Dialog>
-
         <br />
 
+        <Button
+        className="button_style"
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={(e) => this.getActivity()}
+                    >
+                      Load Events
+        </Button>
         <TableContainer>
           <TextField
             id="standard-basic"
@@ -472,7 +225,7 @@ export default class UserActiviyDashboard extends Component {
                       variant="outlined"
                       color="primary"
                       size="small"
-                      onClick={(e) => this.handleActivityEditOpen(row)}
+                      onClick={(e) => this.updateActivity()}
                     >
                       Book
                   </Button>
@@ -484,7 +237,6 @@ export default class UserActiviyDashboard extends Component {
           <br />
           <Pagination count={this.state.pages} page={this.state.page} onChange={this.pageChange} color="primary" />
         </TableContainer>
-
       </div>
     );
   }

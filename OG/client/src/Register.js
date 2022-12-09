@@ -14,7 +14,7 @@ export default class Register extends React.Component {
       username: '',
       password: '',
       confirm_password: '',
-      UserOwner: '',
+      UserOwner: 'owner',
     };
   }
 
@@ -45,7 +45,7 @@ export default class Register extends React.Component {
       }
     }).catch((err) => {
       swal({
-        text: err.response.data.errorMessage,
+        text: "Error creating account, try again",
         icon: "error",
         type: "error"
       });
