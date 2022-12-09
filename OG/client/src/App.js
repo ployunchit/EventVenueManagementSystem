@@ -21,6 +21,7 @@ import Home from "./Home";
 import UserHome from "./UserHome";
 import UserProfile from './pages/UserProfile';
 import UserOwnerSwitch from "./UserOwnerSwitch";
+import DarkMode from "./DarkMode";
 import './Login.css';
 
 
@@ -29,7 +30,8 @@ const App = () => {
  return (
    <div>
      <Routes>
-      <Route exact path='/' element={<UserOwnerSwitch/>} />
+      {/* <Route exact path='/' element={<UserOwnerSwitch/>} /> */}
+      <Route exact path='/' element={<DarkMode/>} />
       <Route exact path='/Home' element={<Home/>} />
       <Route exact path='/UserHome' element={<UserHome/>} />
       <Route exact path='/login' element={<Login/>} />
