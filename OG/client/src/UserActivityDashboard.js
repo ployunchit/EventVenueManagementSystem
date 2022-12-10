@@ -7,7 +7,7 @@ import {
 import { Pagination } from '@material-ui/lab';
 import swal from 'sweetalert';
 import './navbar.css';
-import Navbar from './navbar/navbar';
+import Navbar from './navbar/UserNavbar';
 const axios = require('axios');
 
 export default class ActiviyDashboard extends Component {
