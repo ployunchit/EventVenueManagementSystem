@@ -10,7 +10,7 @@ import './navbar.css';
 import Navbar from './navbar/UserNavbar';
 const axios = require('axios');
 
-export default class UserVenuesDashboard extends Component {
+export default class VenuesDashboard extends Component {
   constructor() {
     super();
     this.state = {
@@ -69,6 +69,33 @@ export default class UserVenuesDashboard extends Component {
     });
   }
 
+  deleteVenue = (id) => {
+    axios.post('https://eventhub-server.onrender.com/delete-venue', {
+      id: id
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'token': this.state.token
+      }
+    }).then((res) => {
+
+      swal({
+        text: res.data.title,
+        icon: "success",
+        type: "success"
+      });
+
+      this.setState({ page: 1 }, () => {
+        this.pageChange(null, 1);
+      });
+    }).catch((err) => {
+      swal({
+        text: err.response.data.errorMessage,
+        icon: "error",
+        type: "error"
+      });
+    });
+  }
 
   pageChange = (e, page) => {
     this.setState({ page: page }, () => {
@@ -94,21 +121,16 @@ export default class UserVenuesDashboard extends Component {
     }
   };
 
-
-
-
-
-  updateVenue = () => {
+  addVenue = () => {
     const fileInput = document.querySelector("#fileInput");
     const file = new FormData();
-    file.append('id', this.state.id);
     file.append('file', fileInput.files[0]);
     file.append('name', this.state.name);
     file.append('address', this.state.address);
     file.append('slots', this.state.slots);
     file.append('price', this.state.price);
 
-    axios.post('https://eventhub-server.onrender.com/update-venue', file, {
+    axios.post('https://eventhub-server.onrender.com/add-venue', file, {
       headers: {
         'content-type': 'multipart/form-data',
         'token': this.state.token
@@ -121,13 +143,51 @@ export default class UserVenuesDashboard extends Component {
         type: "success"
       });
 
+      this.handleVenueClose();
+      this.setState({ name: '', address: '', slots: '', price: '', file: null, page: 1 }, () => {
+        this.getVenue();
+      });
+    }).catch((err) => {
+      swal({
+        text: err.response.data.errorMessage,
+        icon: "error",
+        type: "error"
+      });
+      this.handleVenueClose();
+    });
+
+  }
+
+  updateVenue = () => {
+    const fileInput = document.querySelector("#fileInput");
+    const file = new FormData();
+    file.append('id', this.state.id);
+    //file.append('file', fileInput.files[0]);
+    file.append('name', this.state.name);
+    file.append('address', this.state.address);
+    file.append('slots', this.state.slots-1);
+    file.append('price', this.state.price);
+
+    axios.post('https://eventhub-server.onrender.com/update-venue', file, {
+      headers: {
+        'content-type': 'multipart/form-data',
+        'token': this.state.token
+      }
+    }).then((res) => {
+
+      swal({
+        text: "Thank you for booking! Enjoy!",
+        icon: "success",
+        type: "success"
+      });
+
       this.handleVenueEditClose();
       this.setState({ name: '', address: '', slots: '', price: '', file: null }, () => {
         this.getVenue();
       });
     }).catch((err) => {
       swal({
-        text: err.response.data.errorMessage,
+        text: "Error booking this event, please try again.",
         icon: "error",
         type: "error"
       });
@@ -164,10 +224,6 @@ export default class UserVenuesDashboard extends Component {
     });
   };
 
-  bookEvent = (row) => {
-
-  };
-
   handleVenueEditClose = () => {
     this.setState({ openVenueEditModal: false });
   };
@@ -182,6 +238,109 @@ export default class UserVenuesDashboard extends Component {
           <h2>Venues Dashboard</h2>
           <br/>
         </div>
+
+        {/* Edit Venue */}
+        <Dialog
+          open={this.state.openVenueEditModal}
+          onClose={this.handleVenueClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+        <DialogActions>
+            <Button onClick={this.handleVenueEditClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              disabled={this.state.name == '' || this.state.address == '' || this.state.price == '' || this.state.capacity == '' || this.state.dateTime == ''}
+              onClick={(e) => this.updateVenue()} color="primary" autoFocus>
+              Confirm Book
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Add Venue */}
+        <Dialog
+          open={this.state.openVenueModal}
+          onClose={this.handleVenueClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Add Venue</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="standard-basic"
+              type="text"
+              autoComplete="off"
+              name="name"
+              value={this.state.name}
+              onChange={this.onChange}
+              placeholder="Name"
+              required
+            /><br />
+            <TextField
+              id="standard-basic"
+              type="text"
+              autoComplete="off"
+              name="address"
+              value={this.state.address}
+              onChange={this.onChange}
+              placeholder="Address"
+              required
+            /><br />
+            <TextField
+              id="standard-basic"
+              type="text"
+              autoComplete="off"
+              name="slots"
+              value={this.state.slots}
+              onChange={this.onChange}
+              placeholder="Slots"
+              required
+            /><br />
+            <TextField
+              id="standard-basic"
+              type="number"
+              autoComplete="off"
+              name="price"
+              value={this.state.price}
+              onChange={this.onChange}
+              placeholder="Price"
+              required
+            /><br /><br />
+            <Button
+              variant="contained"
+              component="label"
+            > Upload
+            <input
+                id="standard-basic"
+                type="file"
+                accept="image/*"
+                // inputProps={{
+                //   accept: "image/*"
+                // }}
+                name="file"
+                value={this.state.file}
+                onChange={this.onChange}
+                id="fileInput"
+                placeholder="File"
+                hidden
+                required
+              />
+            </Button>&nbsp;
+            {this.state.fileName}
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={this.handleVenueClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              disabled={this.state.name == '' || this.state.address == '' || this.state.slots == '' ||  this.state.price == '' || this.state.file == null}
+              onClick={(e) => this.addVenue()} color="primary" autoFocus>
+              Add Venue
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <br />
 
@@ -205,7 +364,6 @@ export default class UserVenuesDashboard extends Component {
                 <TableCell align="center">Slots</TableCell>
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Action</TableCell>
-                <TableCell align="center">Book</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -224,7 +382,7 @@ export default class UserVenuesDashboard extends Component {
                       variant="outlined"
                       color="primary"
                       size="small"
-                      onClick={(e) => this.bookEvent(row)}
+                      onClick={(e) => this.handleVenueEditOpen(row)}
                     >
                       Book
                   </Button>
