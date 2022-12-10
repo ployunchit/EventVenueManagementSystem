@@ -361,7 +361,7 @@ export default class VenuesDashboard extends Component {
                 <TableCell align="center">Name</TableCell>
                 <TableCell align="center">Image</TableCell>
                 <TableCell align="center">Address</TableCell>
-                <TableCell align="center">Slots</TableCell>
+                <TableCell align="center">Capacity</TableCell>
                 <TableCell align="center">Price</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
